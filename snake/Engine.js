@@ -170,6 +170,7 @@ function init(){
     newBlock(0,0);
     generateFruit();
     initialized = true;
+    document.getElementById("ScoreDisplay").innerHTML = "GAME IN PROGRESS";
 }
 
 //Initializes
@@ -312,7 +313,7 @@ function gameOver(){
     ctx.fillStyle = "CC0033";
     ctx.textAlign = "center";
     ctx.font = "bold 50px Impact";
-    ctx.fillText("GAME OVER!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 50);
+    ctx.fillText("GAME OVER!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 35);
     
     ctx.font = "italic 40px Impact";
     ctx.fillText("Final Score: " + SCORE, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
