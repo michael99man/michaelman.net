@@ -223,7 +223,9 @@ function processInput(key){
             }
             init();
         } else {
-            alert("Press Enter");
+            if (WELCOME_SCREEN){
+                alert("Press Enter to Begin");
+            }
         }
     } else {  
         if (key == 119){
@@ -316,4 +318,6 @@ function gameOver(){
     ctx.fillText("Final Score: " + SCORE, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
     window.clearInterval(paintID);
     GAME_OVER = true;
+    document.getElementById("ScoreDisplay").innerHTML = "Your Score: " + SCORE;
+    document.getElementById("PostButton").disabled = false;
 }

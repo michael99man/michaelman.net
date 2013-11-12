@@ -16,5 +16,11 @@
         <div id="table"></div>
         <script src="Scoring.js"></script>
         <!--<input type = "button" value = "TESTING!" onClick = "postScore('Bobby', '2132')"> -->
+        <form id = "HighScoreForm">
+            Name: <input type="text" name="name"><br>
+            <p id = "ScoreDisplay">Your score: GAME IN PROGRESS</p>
+            <input id = "PostButton" type="button" value="Submit High Score!" onclick =         "postScore()" disabled>
+        </form>
     </body>
+    <iframe id="frmFile" src="scores.txt" onload="LoadFile();" style="display: none;"></iframe>
 </html>
