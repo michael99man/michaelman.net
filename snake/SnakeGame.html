@@ -1,26 +1,24 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
     </head>
-    <script src="Engine.js"></script>
+    <script src="Engine.js?ver=1.01"></script>
     <body>  
         <h1 id = "SCORE">SCORE: 0</h1>
-        <canvas id="Canvas" width="750" height="500"
+        <canvas id="Canvas" width="1200" height="525"
                 style="border:1px solid #000000;">
         </canvas>
         <script>welcomeScreen()</script>
-        <div id="table"></div>
-        <script src="Scoring.js"></script>
-        <!--<input type = "button" value = "TESTING!" onClick = "postScore('Bobby', '2132')"> -->
+        <script src="Scoring.js?ver=1.02"></script>
         <form id = "HighScoreForm">
             Name: <input type="text" name="name"><br>
             <p id = "ScoreDisplay">Your score: GAME IN PROGRESS</p>
             <input id = "PostButton" type="button" value="Submit High Score!" onclick =         "postScore()" disabled>
         </form>
+        <div id="table"></div>
     </body>
     <iframe id="frmFile" src="scores.txt" onload="LoadFile();" style="display: none;"></iframe>
 </html>

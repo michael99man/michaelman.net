@@ -7,7 +7,12 @@ var dataArray = [];
 function drawTable(dataArray){
     var myTable = "<table border = \"2\"><tr><td style='width: 50px; color: black;'>Ranking</td><td style='width: 200px; color: black;'>Name</td><td style='width: 200px; color:                black;'>Score</td></tr>";
     for (var i = 0; i<dataArray.length; i++){
-        myTable += "<tr><td>" + (i+1) + "</td><td>" + dataArray[i].name + "</td><td>" + dataArray[i].score + "</td></tr>";
+        if (i !== 0 && dataArray[i].score == dataArray[i-1].score){
+            myTable += "<tr><td>" + (i) + "</td><td>";
+        } else {
+            myTable += "<tr><td>" + (i+1) + "</td><td>";
+        }
+        myTable += dataArray[i].name + "</td><td>" + dataArray[i].score + "</td></tr>";
     }
     document.getElementById("table").innerHTML = myTable;
 }
@@ -51,7 +56,7 @@ function LoadFile(){
         //NOTE: SUBSTRING INCLUDES START BUT NOT END. e.g. (1,4) of "hello" is "ell"
         var data = {name: name, score: score};
         dataArray.push(data);
-        alert(name + " scored " + score);
+        //alert(name + " scored " + score);
     }   
     dataArray = sortArray(dataArray);
     drawTable(dataArray);

@@ -11,7 +11,7 @@ case 'POST': $the_request = &$_POST; writeToFile($_POST['name'], $_POST['score']
     function writeToFile($name, $score){
         $file = "scores.txt";
         $fh = fopen($file, 'a');
-        $data = $name . " : " . $score . "\n";
+        $data = "\n" . $name . " : " . $score;
         fwrite($fh, $data);
         fclose($fh);
     }
