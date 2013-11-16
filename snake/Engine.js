@@ -210,12 +210,12 @@ function clear(x,y){
 }
 
 function processInput(key){
-    key = key.keyCode;
+    var keyCode = key.keyCode;
     
     if(GAME_OVER || WELCOME_SCREEN){
-        if (key == 13){ 
+        if (keyCode == 13){ 
             //Enter (starts and restarts game)
-            
+           
             if(WELCOME_SCREEN){
                 WELCOME_SCREEN = false;
             } 
@@ -227,16 +227,17 @@ function processInput(key){
         } else {
             if (WELCOME_SCREEN){
                 alert("Press Enter to Begin");
+                key.preventDefault();
             }
         }
     } else {  
-        if (key == 119){
+        if (keyCode == 119){
             changeDirection("Up");
-        } else if (key == 115){
+        } else if (keyCode == 115){
             changeDirection("Down");
-        } else if (key == 97){
+        } else if (keyCode == 97){
             changeDirection("Left");
-        } else if (key == 100){
+        } else if (keyCode == 100){
             changeDirection("Right");
         } else {
             alert("Control the snake with W-A-S-D!");
