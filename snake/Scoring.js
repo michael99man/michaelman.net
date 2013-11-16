@@ -43,16 +43,43 @@ function sortArray(data){
 }
 
 function LoadFile(){
-    var strRawContents = document.getElementById("frmFile").contentWindow.document.body.childNodes[0].innerHTML;
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var text = "";
+    for( var i=0; i <5; i++ ){
+        text += possible.charAt(Math.floor(Math.random() * (possible.length-1)));
+    }
+    
+    //AJAX
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            parseData(xmlhttp);
+        }
+    };
+    xmlhttp.open("GET","scores.txt?" + text,true);
+    xmlhttp.send();
+    
+    /*
+    document.getElementById("frmFile").src = ("scores.txt?" + text);
+    alert("PULLING FROM " + document.getElementById("frmFile").src);
+    var strRawContents =document.getElementById("frmFile").contentWindow.document.body.childNodes[0].innerHTML;
+    document.getElementById("frmFile").contentDocument.location.reload(true);
+    */
+}
+
+function parseData(res){
+    var text = res.responseText + "";
+    
     dataArray = [];
     //Array of lines
-    var arrLines = strRawContents.split("\n");
-    //alert("File " + document.getElementById("frmFile").src + " has " + arrLines.length + " lines");
+    var arrLines = text.split("\n");
     for (var i = 0; i < arrLines.length; i++) {
         var curLine = arrLines[i];
         var offset = curLine.indexOf(" : ");
         var name = curLine.substring(0, offset);
-        var score = parseInt(curLine.substring(offset + 3));
+        var score = parseInt(curLine.substring(offset + 3), null);
         //NOTE: SUBSTRING INCLUDES START BUT NOT END. e.g. (1,4) of "hello" is "ell"
         var data = {name: name, score: score};
         dataArray.push(data);
@@ -65,7 +92,7 @@ function LoadFile(){
 function postScore(){
     var name = document.getElementById("HighScoreForm").elements["name"].value;
     var score = SCORE;
-    alert("POSTING: " + name + " - " + score);
+    //alert("POSTING: " + name + " - " + score);
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", "http://michaelman.net/snake/scores.php");

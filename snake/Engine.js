@@ -170,6 +170,8 @@ function init(){
     newBlock(0,0);
     generateFruit();
     initialized = true;
+    SCORE = 0;
+    document.getElementById("SCORE").innerHTML = ("SCORE: " + SCORE);
     document.getElementById("ScoreDisplay").innerHTML = "GAME IN PROGRESS";
 }
 
@@ -204,8 +206,7 @@ function draw(x, y) {
 }
 
 function clear(x,y){
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(x,y,BLOCK_SIZE,BLOCK_SIZE);
+    ctx.clearRect(x,y, BLOCK_SIZE, BLOCK_SIZE);
 }
 
 function processInput(key){
