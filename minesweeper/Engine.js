@@ -6,7 +6,7 @@ var CANVAS_HEIGHT;
 var WIDTH_MAX;
 var HEIGHT_MAX;
 var TOTAL_BLOCKS;
-    
+
 var blockList = [];
 
 var Canvas;
@@ -15,6 +15,9 @@ var BLOCK_SIZE = 25;
 
 var MINE_TOTAL = 25;
 
+//SPRITES: - Set in Init()
+var MINE_IMG;
+var BLOCK_IMG;
 
 
 //Draws the gamezone
@@ -24,13 +27,11 @@ function drawGame(){
         for (var j = 0; j<HEIGHT_MAX; j++){
             var block = {x: i, y: j, w: BLOCK_SIZE, h: BLOCK_SIZE, 'id': id, revealed: false, type : undefined}; 
             blockList.push(block);
-            ctx.strokeRect(i * BLOCK_SIZE,j * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            ctx.drawImage(BLOCK_IMG, i * BLOCK_SIZE,j * BLOCK_SIZE);
             id++;
         }
     }
     
-    var MINE_IMG = new Image();
-    MINE_IMG.src = "sprites/mine.png";
     //Randomly plants mines
     for (var p = 0; p<MINE_TOTAL; p++){
         var valid = false;
@@ -52,6 +53,7 @@ function drawGame(){
 function getAdjacent(id){
     
 }
+
 function click(e){
     var x,y;
     if (e.pageX || e.pageY) { 
@@ -94,6 +96,15 @@ function processClick(id, event){
     }
     
     alert("Block " + id + " was clicked with: " + clickType);
+    
+    var temp = id;
+    var x = 0;
+    while (temp > HEIGHT_MAX){
+        x++;
+        temp -= HEIGHT_MAX;
+    }
+    var y = temp-1;
+    alert(x + ", " + y);
 }
 
 function init(){
@@ -107,9 +118,18 @@ function init(){
     ctx = Canvas.getContext("2d");
     //16*18
     //alert(w + "*" + h);
-    drawGame();
     
     Canvas.addEventListener('click', click, false);
+    
+    //Sprite data:
+    MINE_IMG = new Image();
+    MINE_IMG.src = "sprites/mine.png";
+    
+    BLOCK_IMG = new Image();
+    BLOCK_IMG.src = "sprites/block.png";
+    
+    //Call last to avoid errors:
+    drawGame();
 }
 
 
