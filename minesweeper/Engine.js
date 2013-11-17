@@ -15,17 +15,44 @@ var BLOCK_SIZE = 25;
 
 var MINE_TOTAL = 25;
 
-//SPRITES: - Set in Init()
-var MINE_IMG;
-var BLOCK_IMG;
+//SPRITES:
+var MINE_IMG = new Image();
+var BLOCK_IMG = new Image();
+
+//Numbers 1-8
+var ONE_IMG = new Image();
+var TWO_IMG = new Image();
+var THREE_IMG = new Image();
+var FOUR_IMG = new Image();
+var FIVE_IMG = new Image();
+var SIX_IMG = new Image();
+var SEVEN_IMG = new Image();
+var EIGHT_IMG = new Image();
+
+var IMG_LIST = [ONE_IMG, TWO_IMG, THREE_IMG, FOUR_IMG, FIVE_IMG, SIX_IMG, SEVEN_IMG, EIGHT_IMG];
+
+//Setting source
+MINE_IMG.src = "sprites/mine.png";
+BLOCK_IMG.src = "sprites/block.png";
+
+ONE_IMG.src = "sprites/numbers/one.png";
+TWO_IMG.src = "sprites/numbers/two.png";
+THREE_IMG.src = "sprites/numbers/three.png";
+FOUR_IMG.src = "sprites/numbers/four.png";
+
+//TO BE COMPLETED
+FIVE_IMG.src = "sprites/numbers/one.png";
+SIX_IMG.src = "sprites/numbers/one.png";
+SEVEN_IMG.src = "sprites/numbers/one.png";
+EIGHT_IMG.src = "sprites/numbers/one.png";
 
 
 //Draws the gamezone
 function drawGame(){
-    var id = 1;
+    var id = 0;
     for (var i = 0; i<WIDTH_MAX; i++){
         for (var j = 0; j<HEIGHT_MAX; j++){
-            var block = {x: i, y: j, w: BLOCK_SIZE, h: BLOCK_SIZE, 'id': id, revealed: false, type : undefined}; 
+            var block = {x: i, y: j, w: BLOCK_SIZE, h: BLOCK_SIZE, 'id': id, revealed: false, type : null}; 
             blockList.push(block);
             ctx.drawImage(BLOCK_IMG, i * BLOCK_SIZE,j * BLOCK_SIZE);
             id++;
@@ -47,11 +74,33 @@ function drawGame(){
             }
         }
     }
+    
+    for(var f = 0; f<blockList.length; f++){
+        if (blockList[f].type === null){
+            var amount = getAdjacent(blockList[f].id);
+            //Set sprite based on amount
+            if (amount !== 0){
+                blockList[f].type = amount;
+            }
+        }
+    }
 }
 
 //Returns the number of mines adjacent to this point
 function getAdjacent(id){
+    var mines = 0;
     
+    //List of IDs that are adjacent to this point:
+    var idList = [id-HEIGHT_MAX-1, id-HEIGHT_MAX, id-HEIGHT_MAX+1, id-1, id+1, id+HEIGHT_MAX-1, id+HEIGHT_MAX, id+HEIGHT_MAX+1];
+    
+    for (var i = 0; i<idList.length; i++){
+        if (blockList[idList[i]] !== undefined){
+            if (blockList[idList[i]].type == "mine"){ 
+                mines++;
+            }
+        }
+    }
+    return mines;
 }
 
 function click(e){
@@ -76,9 +125,7 @@ function click(e){
         if (blockList[i].x == xDiv && blockList[i].y == yDiv){
             id = blockList[i].id;
             break;
-        } else {
-            //alert(blockList[i].x + " !== " + xDiv + " OR " + blockList[i].y + " !== " + yDiv);
-        }
+        } 
     }
     processClick(id, e);
 }
@@ -95,16 +142,88 @@ function processClick(id, event){
         clickType = "Error";
     }
     
-    alert("Block " + id + " was clicked with: " + clickType);
+    //alert("Block " + id + " was clicked with: " + clickType);
     
-    var temp = id;
-    var x = 0;
-    while (temp > HEIGHT_MAX){
-        x++;
-        temp -= HEIGHT_MAX;
+    //ON FIRST CLICK: THE CLICKED BLOCK IS A NULL
+    if (!blockList[id].revealed && clickType){
+        var type = blockList[id].type;
+        reveal(id);
+        if (type == "mine"){
+            if (clickType == "left"){
+                //WIP
+                //revealAll();
+                alert("Game over!");
+                //gameOver();
+            } else if (clickType == "right"){
+                //FLAG(id);
+            }
+        } else if (type === null){
+            var idList = [id];
+            revealNull(idList);
+        }
     }
-    var y = temp-1;
-    alert(x + ", " + y);
+}
+
+
+//Reveals all the neighbors of the null block until you reach a number block. Iterates for each other null block revealed this way 
+function revealNull(start){
+    var items = [start];   
+    function enqueue(array){
+        var included = false;
+        for (var a=0; a<array.length; a++){
+            for (var id = 0; id< items.length; id++){
+                if (items[id] == array[a]){
+                    included = true;
+                }
+            }
+            if(!included) {
+                items.push(array[a]);    
+            }
+        }
+    }
+    
+    function dequeue() {
+        return items.shift();                                                
+    }
+    function peek(){
+        return items[0];
+    }
+    
+    while(peek !== undefined){
+        enqueue(revealAdj(dequeue()));
+    }
+    
+    function revealAdj(id){
+        var revealedNulls = [];
+        //Array of blocks sharing a side
+        var adjacentBlocks = [id - HEIGHT_MAX, id - 1, id + 1, id + HEIGHT_MAX];
+        for (var i = 0; i<adjacentBlocks.length; i++){
+            var x = adjacentBlocks[i];
+            if (blockList[x] !== undefined){
+                if (blockList[x].type === null){
+                    reveal(x);
+                    revealedNulls.push(x);
+                } else if (blockList[x].type !== "mine"){ //Reveals the number
+                    reveal(x);
+                }
+            }
+        }
+        return revealedNulls;
+    }
+}
+
+
+//Reveals a block
+function reveal(id){
+    ctx.clearRect(blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+    if (blockList[id].type === null){
+        ctx.strokeRect(blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+    } else if (blockList[id].type == "mine"){
+        ctx.drawImage(MINE_IMG, blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE);
+    } else {
+        ctx.drawImage(IMG_LIST[blockList[id].type - 1], blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE);
+    }
+    blockList[id].revealed = true;
 }
 
 function init(){
@@ -120,13 +239,6 @@ function init(){
     //alert(w + "*" + h);
     
     Canvas.addEventListener('click', click, false);
-    
-    //Sprite data:
-    MINE_IMG = new Image();
-    MINE_IMG.src = "sprites/mine.png";
-    
-    BLOCK_IMG = new Image();
-    BLOCK_IMG.src = "sprites/block.png";
     
     //Call last to avoid errors:
     drawGame();
