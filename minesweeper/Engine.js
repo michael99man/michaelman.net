@@ -5,13 +5,15 @@ var CANVAS_HEIGHT;
 
 var WIDTH_MAX;
 var HEIGHT_MAX;
-
+var TOTAL_BLOCKS;
+    
 var blockList = [];
 
 var Canvas;
 var ctx;
 var BLOCK_SIZE = 25;
 
+var MINE_TOTAL = 25;
 
 
 
@@ -20,15 +22,36 @@ function drawGame(){
     var id = 1;
     for (var i = 0; i<WIDTH_MAX; i++){
         for (var j = 0; j<HEIGHT_MAX; j++){
-            var block = {x: i, y: j, w: BLOCK_SIZE, h: BLOCK_SIZE, 'id': id, revealed: false, type : undefined};
+            var block = {x: i, y: j, w: BLOCK_SIZE, h: BLOCK_SIZE, 'id': id, revealed: false, type : undefined}; 
             blockList.push(block);
             ctx.strokeRect(i * BLOCK_SIZE,j * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
             id++;
         }
     }
+    
+    var MINE_IMG = new Image();
+    MINE_IMG.src = "sprites/mine.png";
+    //Randomly plants mines
+    for (var p = 0; p<MINE_TOTAL; p++){
+        var valid = false;
+        
+        while (!valid){
+            //Generates random number from 0 - (TOTAL_BLOCKS - 1)
+            var num = Math.floor((Math.random()*TOTAL_BLOCKS)+1);
+            if (blockList[num].type !== "mine"){
+                valid = true;
+                blockList[num].type = "mine";
+                ctx.drawImage(MINE_IMG, blockList[num].x * BLOCK_SIZE, blockList[num].y * BLOCK_SIZE);
+                break;
+            }
+        }
+    }
 }
 
-
+//Returns the number of mines adjacent to this point
+function getAdjacent(id){
+    
+}
 function click(e){
     var x,y;
     if (e.pageX || e.pageY) { 
@@ -80,6 +103,7 @@ function init(){
     
     WIDTH_MAX = CANVAS_WIDTH/BLOCK_SIZE;
     HEIGHT_MAX = CANVAS_HEIGHT/BLOCK_SIZE;
+    TOTAL_BLOCKS = WIDTH_MAX * HEIGHT_MAX;
     ctx = Canvas.getContext("2d");
     //16*18
     //alert(w + "*" + h);
