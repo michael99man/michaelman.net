@@ -28,12 +28,16 @@ var FIVE_IMG = document.createElement("img");
 var SIX_IMG = document.createElement("img");
 var SEVEN_IMG = document.createElement("img");
 var EIGHT_IMG = document.createElement("img");
+var FLAG_IMG = document.createElement("img");
 
 var IMG_LIST = [ONE_IMG, TWO_IMG, THREE_IMG, FOUR_IMG, FIVE_IMG, SIX_IMG, SEVEN_IMG, EIGHT_IMG];
+
+var MINE_COUNTER;
 
 //Setting source
 MINE_IMG.src = "sprites/mine.png";
 BLOCK_IMG.src = "sprites/block.png";
+FLAG_IMG.src = "sprites/flag.png";
 
 ONE_IMG.src = "sprites/numbers/one.png";
 TWO_IMG.src = "sprites/numbers/two.png";
@@ -49,12 +53,14 @@ EIGHT_IMG.src = "sprites/numbers/one.png";
 
 var started = false;
 
+var flaggedTotal = 0;
+
 //Draws the gamezone
 function drawGame(){
     var id = 0;
     for (var i = 0; i<WIDTH_MAX; i++){
         for (var j = 0; j<HEIGHT_MAX; j++){
-            var block = {x: i, y: j, w: BLOCK_SIZE, h: BLOCK_SIZE, 'id': id, revealed: false, type : null}; 
+            var block = {x: i, y: j, w: BLOCK_SIZE, h: BLOCK_SIZE, 'id': id, revealed: false, type : null , flagged: false}; 
             blockList.push(block);
             ctx.drawImage(BLOCK_IMG, i * BLOCK_SIZE,j * BLOCK_SIZE);
             id++;
@@ -68,7 +74,7 @@ function generateMap(id){
     var b = blockList[id];
     //To make sure that the click is on a null
     var noMine = [{x: b.x, y: b.y}, {x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}];
-   
+    
     //Randomly plants mines
     for (var p = 0; p<MINE_TOTAL; p++){
         var valid = false;
@@ -111,7 +117,7 @@ function getAdjacent(idn){
     var b = blockList[idn];
     
     //List of IDs that are adjacent to this point:
-    var coordList = [{x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}, ];
+    var coordList = [{x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}];
     for (var i = 0; i < coordList.length; i++) {
         var id = getBlock(coordList[i].x, coordList[i].y);
         if (blockList[id] !== undefined) {
@@ -157,6 +163,8 @@ function click(e){
             break;
         } 
     }
+    event.preventDefault();
+    event.stopPropagation();
     processClick(id, e);
 }
 
@@ -184,17 +192,26 @@ function processClick(id, event){
     if (!blockList[id].revealed){
         //Checks only if the clicked block has not yet been revealed
         var type = blockList[id].type;
-        if (type == "mine"){
-            if (clickType == "left"){
+        if (clickType == "left"){
+            if (type == "mine"){
                 //WIP
                 //revealAll();
                 alert("Game over!");
-                //gameOver();
-            } else if (clickType == "right"){
-                //FLAG(id);
+                //gameOver();  
+            } else if (type === null){
+                revealNull(id);
+            } else {
+                //Number blocks
+                reveal(id);
             }
-        } else if (type === null){
-            revealNull(id);
+        } else if (clickType == "right"){
+            if (!blockList[id].flagged && flaggedTotal < MINE_TOTAL){
+                flag(id);  
+            } else {
+                unflag(id);
+            }
+        } else {
+            alert("Use left and right clicks to annotate the board!");
         }
     }
 }
@@ -278,11 +295,47 @@ function init(){
     //16*18
     //alert(w + "*" + h);
     
+    Canvas.addEventListener('contextmenu', click, false); 
     Canvas.addEventListener('click', click, false);
     
+    MINE_COUNTER = document.getElementById("mineCounter");
+    MINE_COUNTER.innerHTML="Mines left: " + MINE_TOTAL + "/" + MINE_TOTAL;
     //To avoid a blank canvas, draw canvas only after image has been loaded
     BLOCK_IMG.addEventListener('load', function() {
         drawGame();
-    }, false);
-    
+    }, false);  
+}
+
+//Flags a block
+function flag(id){
+    blockList[id].flagged = true;
+    ctx.clearRect(blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+    ctx.drawImage(FLAG_IMG, blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE);
+    flaggedTotal++;
+    MINE_COUNTER.innerHTML = "Mines left: " + (MINE_TOTAL - flaggedTotal) + "/" + MINE_TOTAL;
+    //Checks all of the player's flags. If they are correct, you win the game!
+    if (flaggedTotal == MINE_TOTAL){
+        var won = true;
+        for (var b = 0; b<blockList.length; b++){
+            if (blockList[b].flagged && blockList[b].type !== "mine"){
+                won = false;
+            }
+        }
+        if (won){
+            winGame();
+        }
+    }
+}
+
+//Unflags a block
+function unflag(id){
+    blockList[id].flagged = false;
+    ctx.clearRect(blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+    ctx.drawImage(BLOCK_IMG, blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE);
+    flaggedTotal--;
+    MINE_COUNTER.innerHTML = "Mines left: " + (MINE_TOTAL - flaggedTotal) + "/" + MINE_TOTAL;
+}
+
+function winGame(){
+    alert("YOU'VE WON THE GAME");
 }
