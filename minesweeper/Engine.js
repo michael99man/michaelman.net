@@ -16,18 +16,18 @@ var BLOCK_SIZE = 25;
 var MINE_TOTAL = 25;
 
 //SPRITES:
-var MINE_IMG = new Image();
-var BLOCK_IMG = new Image();
+var MINE_IMG = document.createElement("img");
+var BLOCK_IMG = document.createElement("img");
 
 //Numbers 1-8
-var ONE_IMG = new Image();
-var TWO_IMG = new Image();
-var THREE_IMG = new Image();
-var FOUR_IMG = new Image();
-var FIVE_IMG = new Image();
-var SIX_IMG = new Image();
-var SEVEN_IMG = new Image();
-var EIGHT_IMG = new Image();
+var ONE_IMG = document.createElement("img");
+var TWO_IMG = document.createElement("img");
+var THREE_IMG = document.createElement("img");
+var FOUR_IMG = document.createElement("img");
+var FIVE_IMG = document.createElement("img");
+var SIX_IMG = document.createElement("img");
+var SEVEN_IMG = document.createElement("img");
+var EIGHT_IMG = document.createElement("img");
 
 var IMG_LIST = [ONE_IMG, TWO_IMG, THREE_IMG, FOUR_IMG, FIVE_IMG, SIX_IMG, SEVEN_IMG, EIGHT_IMG];
 
@@ -69,6 +69,9 @@ function drawGame(){
             if (blockList[num].type !== "mine"){
                 valid = true;
                 blockList[num].type = "mine";
+                
+                //Testing
+                blockList[num].revealed = true;
                 ctx.drawImage(MINE_IMG, blockList[num].x * BLOCK_SIZE, blockList[num].y * BLOCK_SIZE);
                 break;
             }
@@ -81,26 +84,42 @@ function drawGame(){
             //Set sprite based on amount
             if (amount !== 0){
                 blockList[f].type = amount;
+                reveal(f);
             }
         }
     }
 }
 
+
+//NOT WORKING
 //Returns the number of mines adjacent to this point
-function getAdjacent(id){
+function getAdjacent(idn){
     var mines = 0;
     
-    //List of IDs that are adjacent to this point:
-    var idList = [id-HEIGHT_MAX-1, id-HEIGHT_MAX, id-HEIGHT_MAX+1, id-1, id+1, id+HEIGHT_MAX-1, id+HEIGHT_MAX, id+HEIGHT_MAX+1];
+    var b = blockList[idn];
     
-    for (var i = 0; i<idList.length; i++){
-        if (blockList[idList[i]] !== undefined){
-            if (blockList[idList[i]].type == "mine"){ 
+    //List of IDs that are adjacent to this point:
+    var coordList = [{x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}, ];
+    
+    for (var i = 0; i<coordList.length; i++){
+        var id = getBlock(coordList[i].x, coordList[i].y);
+        if (blockList[id] !== undefined){
+            if (blockList[id].type == "mine"){ 
                 mines++;
             }
         }
     }
     return mines;
+}
+
+//Returns the ID of the block at those coordinates
+function getBlock(x,y){
+    if (x > (WIDTH_MAX - 1) || x < 0 || y > (HEIGHT_MAX -1) || y<0){
+        return -1;
+    }
+    
+    var id = x*HEIGHT_MAX + y;
+    return id;
 }
 
 function click(e){
@@ -167,51 +186,84 @@ function processClick(id, event){
 
 //Reveals all the neighbors of the null block until you reach a number block. Iterates for each other null block revealed this way 
 function revealNull(start){
-    var items = [start];   
-    function enqueue(array){
-        var included = false;
-        for (var a=0; a<array.length; a++){
-            for (var id = 0; id< items.length; id++){
-                if (items[id] == array[a]){
-                    included = true;
-                }
-            }
-            if(!included) {
-                items.push(array[a]);    
-            }
+    var items = [start]; 
+    var revealList = [start];
+    
+    function enqueue(item){
+        //Adds the item to the array if it's not included
+        if(items.indexOf(item) == -1) {
+            items.push(item); 
         }
     }
     
     function dequeue() {
         return items.shift();                                                
     }
-    function peek(){
-        return items[0];
+    
+    while(items.length > 0){
+        revealAdj(dequeue());
+    }
+    alert("DONE!");
+    
+    for (var b = 0; b<revealList.length; b++){
+        if (!blockList[b].revealed){
+            reveal(revealList[b]);
+        }
     }
     
-    while(peek !== undefined){
-        enqueue(revealAdj(dequeue()));
-    }
-    
-    function revealAdj(id){
-        var revealedNulls = [];
-        //Array of blocks sharing a side
-        var adjacentBlocks = [id - HEIGHT_MAX, id - 1, id + 1, id + HEIGHT_MAX];
+    //Reveals the four blocks around a given null and returns the nulls revealed this way
+    function revealAdj(d){
+        var id = parseInt(d, 10);
+        //Array of adjcacent blocks (sharing a corner or side)
+        
+        var b = blockList[id];
+        //List of IDs that are adjacent to this point:
+        var adjacentBlocks = [{x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}];
+                              
+        //First column
+        if (id < HEIGHT_MAX){
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x - 1, y:b.y-1 }), 1);
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x - 1, y:b.y}), 1);
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x - 1, y:b.y+1 }), 1);
+        } 
+        
+        //First row
+        if (id % HEIGHT_MAX === 0){
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x-1, y:b.y-1}), 1);
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x, y:b.y-1 }), 1);
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x + 1, y:b.y-1 }), 1);
+        }
+        
+        //Last column
+        if (id >= HEIGHT_MAX * (WIDTH_MAX - 1)){
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x+1, y:b.y-1}), 1);
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x+1, y:b.y}), 1);
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x+1, y:b.y+1}), 1);
+        }
+
+        //Last row
+        if (id % HEIGHT_MAX == HEIGHT_MAX - 1){
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x-1, y:b.y+1}), 1);
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x, y:b.y+1}), 1);
+            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x+1, y:b.y+1}), 1);
+        }
+        
+        //Checks each adjacent block - If it's a null, reveal it and add it to the queue. If it's a number, just reveal it
         for (var i = 0; i<adjacentBlocks.length; i++){
-            var x = adjacentBlocks[i];
-            if (blockList[x] !== undefined){
-                if (blockList[x].type === null){
-                    reveal(x);
-                    revealedNulls.push(x);
-                } else if (blockList[x].type !== "mine"){ //Reveals the number
-                    reveal(x);
+            var x = adjacentBlocks[i].x;
+            var y = adjacentBlocks[i].y;
+            var index = getBlock(x,y);
+            if (blockList[index] !== undefined){
+                if (revealList.indexOf(index) == -1){
+                    revealList.push(index);  
+                    if (blockList[index].type === null && !blockList[index].revealed){
+                        enqueue(index);
+                    }
                 }
             }
         }
-        return revealedNulls;
     }
 }
-
 
 //Reveals a block
 function reveal(id){
@@ -242,10 +294,4 @@ function init(){
     
     //Call last to avoid errors:
     drawGame();
-}
-
-
-function clear(x,y){
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(x,y,BLOCK_SIZE,BLOCK_SIZE);
 }
