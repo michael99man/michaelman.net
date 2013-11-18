@@ -71,8 +71,7 @@ function drawGame(){
                 blockList[num].type = "mine";
                 
                 //Testing
-                blockList[num].revealed = true;
-                ctx.drawImage(MINE_IMG, blockList[num].x * BLOCK_SIZE, blockList[num].y * BLOCK_SIZE);
+                reveal(num);
                 break;
             }
         }
@@ -164,9 +163,9 @@ function processClick(id, event){
     //alert("Block " + id + " was clicked with: " + clickType);
     
     //ON FIRST CLICK: THE CLICKED BLOCK IS A NULL
-    if (!blockList[id].revealed && clickType){
+    if (!blockList[id].revealed){
+        //Checks only if the clicked block has not yet been revealed
         var type = blockList[id].type;
-        reveal(id);
         if (type == "mine"){
             if (clickType == "left"){
                 //WIP
@@ -177,8 +176,7 @@ function processClick(id, event){
                 //FLAG(id);
             }
         } else if (type === null){
-            var idList = [id];
-            revealNull(idList);
+            revealNull(id);
         }
     }
 }
@@ -203,10 +201,10 @@ function revealNull(start){
     while(items.length > 0){
         revealAdj(dequeue());
     }
-    alert("DONE!");
-    
+    //alert("DONE! Length of revealList: " + revealList.length);
+
     for (var b = 0; b<revealList.length; b++){
-        if (!blockList[b].revealed){
+        if (!blockList[revealList[b]].revealed){
             reveal(revealList[b]);
         }
     }
@@ -219,34 +217,6 @@ function revealNull(start){
         var b = blockList[id];
         //List of IDs that are adjacent to this point:
         var adjacentBlocks = [{x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}];
-                              
-        //First column
-        if (id < HEIGHT_MAX){
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x - 1, y:b.y-1 }), 1);
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x - 1, y:b.y}), 1);
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x - 1, y:b.y+1 }), 1);
-        } 
-        
-        //First row
-        if (id % HEIGHT_MAX === 0){
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x-1, y:b.y-1}), 1);
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x, y:b.y-1 }), 1);
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x + 1, y:b.y-1 }), 1);
-        }
-        
-        //Last column
-        if (id >= HEIGHT_MAX * (WIDTH_MAX - 1)){
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x+1, y:b.y-1}), 1);
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x+1, y:b.y}), 1);
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x+1, y:b.y+1}), 1);
-        }
-
-        //Last row
-        if (id % HEIGHT_MAX == HEIGHT_MAX - 1){
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x-1, y:b.y+1}), 1);
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x, y:b.y+1}), 1);
-            adjacentBlocks.splice(adjacentBlocks.indexOf({x: b.x+1, y:b.y+1}), 1);
-        }
         
         //Checks each adjacent block - If it's a null, reveal it and add it to the queue. If it's a number, just reveal it
         for (var i = 0; i<adjacentBlocks.length; i++){
