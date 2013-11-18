@@ -13,7 +13,7 @@ var Canvas;
 var ctx;
 var BLOCK_SIZE = 25;
 
-var MINE_TOTAL = 25;
+var MINE_TOTAL = 35;
 
 //SPRITES:
 var MINE_IMG = document.createElement("img");
@@ -47,6 +47,8 @@ SEVEN_IMG.src = "sprites/numbers/one.png";
 EIGHT_IMG.src = "sprites/numbers/one.png";
 
 
+var started = false;
+
 //Draws the gamezone
 function drawGame(){
     var id = 0;
@@ -58,21 +60,34 @@ function drawGame(){
             id++;
         }
     }
-    
+}
+
+//Generates the blockList
+//Input: id coordinate of first click
+function generateMap(id){
+    var b = blockList[id];
+    //To make sure that the click is on a null
+    var noMine = [{x: b.x, y: b.y}, {x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}];
+   
     //Randomly plants mines
     for (var p = 0; p<MINE_TOTAL; p++){
         var valid = false;
-        
         while (!valid){
             //Generates random number from 0 - (TOTAL_BLOCKS - 1)
-            var num = Math.floor((Math.random()*TOTAL_BLOCKS)+1);
+            var num = Math.floor((Math.random()*(TOTAL_BLOCKS-1))+1);
             if (blockList[num].type !== "mine"){
-                valid = true;
-                blockList[num].type = "mine";
-                
-                //Testing
-                reveal(num);
-                break;
+                var allowed = true;
+                for (var bl = 0; bl < noMine.length; bl++){
+                    //If the mine would be placed adjacent to the initial click, reject it!
+                    if (getBlock(noMine[bl].x, noMine[bl].y) == num){
+                        allowed = false;
+                    }
+                }
+                if (allowed){
+                    valid = true;
+                    blockList[num].type = "mine";
+                    break;
+                }
             }
         }
     }
@@ -83,14 +98,12 @@ function drawGame(){
             //Set sprite based on amount
             if (amount !== 0){
                 blockList[f].type = amount;
-                reveal(f);
             }
         }
-    }
+    } 
+    revealNull(id);
 }
 
-
-//NOT WORKING
 //Returns the number of mines adjacent to this point
 function getAdjacent(idn){
     var mines = 0;
@@ -99,15 +112,14 @@ function getAdjacent(idn){
     
     //List of IDs that are adjacent to this point:
     var coordList = [{x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}, ];
-    
-    for (var i = 0; i<coordList.length; i++){
+    for (var i = 0; i < coordList.length; i++) {
         var id = getBlock(coordList[i].x, coordList[i].y);
-        if (blockList[id] !== undefined){
-            if (blockList[id].type == "mine"){ 
+        if (blockList[id] !== undefined) {
+            if (blockList[id].type == "mine") {
                 mines++;
             }
         }
-    }
+    }        
     return mines;
 }
 
@@ -163,6 +175,12 @@ function processClick(id, event){
     //alert("Block " + id + " was clicked with: " + clickType);
     
     //ON FIRST CLICK: THE CLICKED BLOCK IS A NULL
+    if (!started){
+        started = true;
+        generateMap(id);
+        return;
+    }
+    
     if (!blockList[id].revealed){
         //Checks only if the clicked block has not yet been revealed
         var type = blockList[id].type;
@@ -202,7 +220,7 @@ function revealNull(start){
         revealAdj(dequeue());
     }
     //alert("DONE! Length of revealList: " + revealList.length);
-
+    
     for (var b = 0; b<revealList.length; b++){
         if (!blockList[revealList[b]].revealed){
             reveal(revealList[b]);
@@ -262,6 +280,9 @@ function init(){
     
     Canvas.addEventListener('click', click, false);
     
-    //Call last to avoid errors:
-    drawGame();
+    //To avoid a blank canvas, draw canvas only after image has been loaded
+    BLOCK_IMG.addEventListener('load', function() {
+        drawGame();
+    }, false);
+    
 }
