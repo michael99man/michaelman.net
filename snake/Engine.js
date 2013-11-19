@@ -323,4 +323,5 @@ function gameOver(){
     GAME_OVER = true;
     document.getElementById("ScoreDisplay").innerHTML = "Your Score: " + SCORE;
     document.getElementById("PostButton").disabled = false;
+    document.getElementById("nameField").disabled = false;
 }

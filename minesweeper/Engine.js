@@ -59,6 +59,11 @@ var flaggedTotal = 0;
 
 var GAME_OVER = false;
 
+
+//Timer
+var timer;
+var TIME = 0;
+
 //Draws the gamezone
 function drawGame(){
     var id = 0;
@@ -198,6 +203,8 @@ function processClick(id, event){
     if (!started){
         started = true;
         generateMap(id);
+        document.getElementById("TimeDisplay").innerHTML = "Seconds Elapsed: 0";
+        timer = window.setInterval(updateTime, 1000 );
         return;
     }
     
@@ -349,11 +356,23 @@ function unflag(id){
 }
 
 function winGame(){
+    //Stop the timer
+    window.clearInterval(timer);
     GAME_OVER = true;
-    alert("YOU'VE WON THE GAME");
+    ctx.fillStyle = "000099";
+    ctx.textAlign = "center";
+    ctx.font = "bold 80px Impact";
+    ctx.fillText("YOU WIN!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 50);
+    
+    //Only enables submission if 
+    document.getElementById("PostButton").disabled = false;
+    document.getElementById("nameField").disabled = false;
+    document.getElementById("ScoreDisplay").innerHTML = "Final Time: " + TIME;
 }
 
 function gameOver(){
+    //Stop the timer
+    window.clearInterval(timer);
     GAME_OVER = true;
     for (var b = 0; b<blockList.length; b++){
         if (blockList[b].type == "mine" || blockList[b].type == "clickedmine"){
@@ -364,4 +383,9 @@ function gameOver(){
     ctx.textAlign = "center";
     ctx.font = "bold 80px Impact";
     ctx.fillText("GAME OVER!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 50);
+}
+
+function updateTime(){
+    TIME++;
+    document.getElementById("TimeDisplay").innerHTML = "Seconds Elapsed: " + TIME;
 }

@@ -6,12 +6,20 @@
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">
     </head>
     <script src="Engine.js?ver=1.5"></script>
-    <body oncontextmenu="return false;"> 
+    <script src="Scoring.js?ver=1.0"></script>
+    <body oncontextmenu="return false;" onload="LoadFile();"> 
         <!-- Disables right clicking (for flagging) -->
         <h1>Minesweeper</h1>
-        <h2 id = "mineCounter" >Mines left: </h2>
+        <h4 id = "mineCounter" >Mines left: </h4>
+        <h4 id = "TimeDisplay" >Seconds Elapsed: NOT STARTED</h4>
         <canvas id = "Canvas" width="400" height="450"
                 style="border:1px solid #000000;"></canvas>
         <script>init()</script>
+        <form id = "HighScoreForm">
+            Name: <input type="text" name="name" id= "nameField" disabled><br>
+            <p id = "ScoreDisplay">GAME IN PROGRESS</p>
+            <input id = "PostButton" type="button" value="Submit High Score!" onclick = "postScore()" disabled>
+        </form>
+        <div id="table"></div>
     </body>
 </html>
