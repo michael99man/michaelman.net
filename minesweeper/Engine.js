@@ -18,6 +18,7 @@ var MINE_TOTAL = 35;
 //SPRITES:
 var MINE_IMG = document.createElement("img");
 var BLOCK_IMG = document.createElement("img");
+var CLICKED_MINE_IMG = document.createElement("img");
 
 //Numbers 1-8
 var ONE_IMG = document.createElement("img");
@@ -38,6 +39,7 @@ var MINE_COUNTER;
 MINE_IMG.src = "sprites/mine.png";
 BLOCK_IMG.src = "sprites/block.png";
 FLAG_IMG.src = "sprites/flag.png";
+CLICKED_MINE_IMG.src = "sprites/clickedmine.png";
 
 ONE_IMG.src = "sprites/numbers/one.png";
 TWO_IMG.src = "sprites/numbers/two.png";
@@ -54,6 +56,8 @@ EIGHT_IMG.src = "sprites/numbers/one.png";
 var started = false;
 
 var flaggedTotal = 0;
+
+var GAME_OVER = false;
 
 //Draws the gamezone
 function drawGame(){
@@ -169,9 +173,17 @@ function click(e){
 }
 
 function processClick(id, event){
+    if (GAME_OVER){
+        return;
+    }
     var clickType;    
     if(event.which == 1){
-        clickType = "left";
+        //Mac support
+        if (event.ctrlKey){
+            clickType = "right";
+        } else {
+            clickType = "left";
+        }
     } else if (event.which == 2){
         clickType = "middle";
     } else if (event.which == 3){
@@ -191,14 +203,12 @@ function processClick(id, event){
     
     if (!blockList[id].revealed){
         //Checks only if the clicked block has not yet been revealed
-        var type = blockList[id].type;
+        var t = blockList[id].type;
         if (clickType == "left"){
-            if (type == "mine"){
-                //WIP
-                //revealAll();
-                alert("Game over!");
-                //gameOver();  
-            } else if (type === null){
+            if (t == "mine"){
+                blockList[id].type = "clickedmine";
+                gameOver();  
+            } else if (t === null){
                 revealNull(id);
             } else {
                 //Number blocks
@@ -211,7 +221,7 @@ function processClick(id, event){
                 unflag(id);
             }
         } else {
-            alert("Use left and right clicks to annotate the board!");
+            alert("Use left and right clicks to explore the board!");
         }
     }
 }
@@ -277,7 +287,9 @@ function reveal(id){
         ctx.strokeRect(blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
     } else if (blockList[id].type == "mine"){
         ctx.drawImage(MINE_IMG, blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE);
-    } else {
+    } else if (blockList[id].type == "clickedmine"){
+        ctx.drawImage(CLICKED_MINE_IMG, blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE);
+    }else {
         ctx.drawImage(IMG_LIST[blockList[id].type - 1], blockList[id].x * BLOCK_SIZE, blockList[id].y * BLOCK_SIZE);
     }
     blockList[id].revealed = true;
@@ -337,5 +349,19 @@ function unflag(id){
 }
 
 function winGame(){
+    GAME_OVER = true;
     alert("YOU'VE WON THE GAME");
+}
+
+function gameOver(){
+    GAME_OVER = true;
+    for (var b = 0; b<blockList.length; b++){
+        if (blockList[b].type == "mine" || blockList[b].type == "clickedmine"){
+            reveal(b);
+        }
+    }
+    ctx.fillStyle = "CC0033";
+    ctx.textAlign = "center";
+    ctx.font = "bold 80px Impact";
+    ctx.fillText("GAME OVER!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 50);
 }
