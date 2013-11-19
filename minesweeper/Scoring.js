@@ -21,14 +21,14 @@ function drawTable(dataArray){
 //Custom sorting algorithm
 function sortArray(data){
     var newArray = [];
-    
     for(var i = 0; i<data.length; i++){
         if (i===0){
             newArray.push(data[0]);
         } else {
             var inserted = false;
             for (var j = 0; j<newArray.length; j++){
-                if (data[i].score >= newArray[j].score){
+                //Less is better!
+                if (data[i].score <= newArray[j].score){
                     newArray.splice(j, 0, data[i]);
                     inserted = true;
                     break;
