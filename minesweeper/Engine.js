@@ -212,15 +212,15 @@ function processClick(id, event){
         //Checks only if the clicked block has not yet been revealed
         var t = blockList[id].type;
         if (clickType == "left"){
-            if (t == "mine"){
+            if (t == "mine" && !blockList[id].flagged){
                 blockList[id].type = "clickedmine";
                 gameOver();  
             } else if (t === null){
                 revealNull(id);
-            } else {
+            } else if (!blockList[id].flagged){
                 //Number blocks
                 reveal(id);
-            }
+            } 
         } else if (clickType == "right"){
             if (!blockList[id].flagged && flaggedTotal < MINE_TOTAL){
                 flag(id);  
@@ -230,9 +230,46 @@ function processClick(id, event){
         } else {
             alert("Use left and right clicks to explore the board!");
         }
+    } else if (blockList[id].type !== null && event.shiftKey){
+        //Try to reveal adjacent
+        revealSafe(id);
     }
 }
 
+//If there are the same or more amount of flags adj to this block than the number of this block, reveal all unflagged blocks around this one
+//Only for number blocks
+function revealSafe(id){
+    var b = blockList[id];
+    var adjacentBlocks = [{x: b.x - 1 , y: b.y-1}, {x: b.x - 1 , y: b.y}, {x: b.x - 1 , y: b.y+1}, {x: b.x , y: b.y-1}, {x: b.x , y: b.y+1}, {x: b.x + 1 , y: b.y-1}, {x: b.x + 1 , y: b.y}, {x: b.x + 1 , y: b.y+1}];
+    
+    //Checks amount of flags around the block
+    var flags = 0;
+    for (var i = 0; i<adjacentBlocks.length; i++){
+        var tempID = getBlock(adjacentBlocks[i].x, adjacentBlocks[i].y);
+        if (blockList[tempID] !== undefined){
+            if (blockList[tempID].flagged){
+                flags++;
+            }
+        }
+    }
+    
+    if (flags >= parseInt(b.type, 10)){
+        for (var j=0; j<adjacentBlocks.length; j++){
+            var tempBlock = blockList[getBlock(adjacentBlocks[j].x, adjacentBlocks[j].y)];
+            if (tempBlock !== undefined){
+                if (!tempBlock.flagged){
+                    //If a mine is revealed this way, GG
+                    if (tempBlock.type == "mine"){
+                        blockList[tempBlock.id].type = "clickedmine";
+                        gameOver();
+                    } else {
+                        reveal(tempBlock.id);
+                    }
+                }
+            }
+        }
+    }
+}
 
 //Reveals all the neighbors of the null block until you reach a number block. Iterates for each other null block revealed this way 
 function revealNull(start){
