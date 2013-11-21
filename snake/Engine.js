@@ -105,10 +105,6 @@ function moveBlocks(){
             alert(block.direction);
         }
         
-        if (block.x == FRUIT_X && block.y == FRUIT_Y){
-            gotIt = true;
-        }
-        
         if (block.x >= LENGTH_MAX){
             block.x -= LENGTH_MAX;
         } else if (block.x < 0){
@@ -119,6 +115,10 @@ function moveBlocks(){
             block.y -= HEIGHT_MAX;
         } else if (block.y < 0){
             block.y += HEIGHT_MAX;
+        }
+        
+        if (block.x == FRUIT_X && block.y == FRUIT_Y){
+            gotIt = true;
         }
         
         for (var j = 0; j<blockList.length; j++){
