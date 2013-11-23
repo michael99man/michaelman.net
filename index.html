@@ -21,7 +21,7 @@
                 margin:15px auto;
             }
             .content {
-                width: 800px;
+                width: 860px;
                 background: #E0E0E0;
                 border: 5px solid #8c8c8c;;
                 height: 500px;
@@ -50,6 +50,21 @@
                 box-shadow: 5px 6px 5px #888888;
                 border-radius: 10px;
             }
+            #title{
+                font-family: Tahoma, Geneva, sans-serif;
+                font-style: italic;
+                font-size: 40px;
+                margin: 0 auto;
+            }
+            #message{
+                font-family: Tahoma, Geneva, sans-serif;
+                font-style: italic;
+                font-size: 15px;
+                margin: 0 auto;
+                position: fixed;
+                bottom: 40px;
+                margin-top: 50px;
+            }
         </style>
     </head>
     <body>
@@ -63,7 +78,8 @@
             </div>  
         </div>
         <div class ="content">
-            <h1>Welcome to Michael Man's Website!</h1>
+            <h1 id = "title">Welcome to Michael Man's Website!</h1>
+            <h2 id = message>The Man's Message: I'm boarding a plane to NY soon, so this website won't be updated for a few hours.</h2>
         </div>
     </body>
 </html>
