@@ -4,14 +4,65 @@
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">    
+        
+        <style type="text/css">
+            body{
+                margin:1px;
+                background:#000;
+            }
+            .header-cont {width : 100%; position: fixed; top:10px;}
+            .header {
+                height:70px;
+                background:#CCC;
+                border: 10px solid #C0C0C0;
+                width: 940px;
+                top: 10px;
+                position: static;
+                margin:15px auto;
+            }
+            .content {
+                width:960px;
+                background: #F0F0F0;
+                border: 1px solid #CCC;
+                height: 500px;
+                margin: 15px auto;
+            }
+            
+            .headerLink {
+                text-decoration: none;
+                color: #FFF;
+                margin: 0 auto;
+                font-size: 30px;
+                font-family: Tahoma, Geneva, sans-serif;
+            }
+            
+            .box{
+                display: block;
+                float: left;
+                margin-top:10px;
+                margin-bottom: 10px;
+                margin-left: 10px;
+                padding: 0px 3px;
+                background : #0000FF;
+                border: 5px solid #000000;
+                position:relative;
+            }
+        </style>
     </head>
     <body>
-        <h1>Welcome to Michael Man's Website!</h1>
-        <a href="http://michaelman.net/snake/SnakeGame.html">
-            <button>Snake Game</button>
-        </a>
-        <a href="http://michaelman.net/minesweeper/minesweeper.html">
-            <button>Minesweeper</button>
-        </a>
+        <div class = "header">
+            <div class = "box">
+                <a class = "headerLink" href="http://michaelman.net/snake/SnakeGame.html">Snake</a>
+            </div>
+            
+            <div class = "box">
+                <a class = "headerLink" href="http://michaelman.net/minesweeper/minesweeper.html">Minesweeper</a>
+            </div>  
+        </div>
+        <div class ="content">
+            <h1>Welcome to Michael Man's Website!</h1>
+            
+            
+        </div>
     </body>
 </html>
