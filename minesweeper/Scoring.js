@@ -42,13 +42,17 @@ function sortArray(data){
     return newArray;
 }
 
-function LoadFile(){
+//Returns a random string of length 5
+function generateRandom(){
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     var text = "";
     for( var i=0; i <5; i++ ){
         text += possible.charAt(Math.floor(Math.random() * (possible.length-1)));
     }
-    
+    return text;
+}
+
+function LoadFile(){
     //AJAX
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function()
@@ -58,7 +62,7 @@ function LoadFile(){
             parseData(xmlhttp);
         }
     };
-    xmlhttp.open("GET","scores.txt?" + text,true);
+    xmlhttp.open("GET","scores.txt?" + generateRandom(),true);
     xmlhttp.send();
     
     /*
@@ -89,8 +93,10 @@ function parseData(res){
     drawTable(dataArray);
 }
 
+
+//TODO: Use AJAX to simplify!
 function postScore(){
-    var name = document.getElementById("HighScoreForm").elements["name"].value;
+    var name = document.getElementById("HighScoreForm").elements.name.value;
     var score = TIME;
     //alert("POSTING: " + name + " - " + score);
     var form = document.createElement("form");

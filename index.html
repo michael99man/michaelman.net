@@ -5,6 +5,7 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">    
         
+        <script src = "messageBoard.js"></script>
         <style type="text/css">
             body{
                 margin:1px;
@@ -19,6 +20,7 @@
                 top: 10px;
                 position: static;
                 margin:15px auto;
+                border-radius: 5px;
             }
             .content {
                 width: 860px;
@@ -48,38 +50,86 @@
                 border: 5px solid #052C6E;
                 position:relative;
                 box-shadow: 5px 6px 5px #888888;
-                border-radius: 10px;
+                border-radius: 5px;
             }
             #title{
                 font-family: Tahoma, Geneva, sans-serif;
                 font-style: italic;
-                font-size: 40px;
+                text-align:center;
+                font-size: 35px;
                 margin: 0 auto;
+                margin-top: 10px;
             }
-            #message{
+            
+            /* To be removed soon (obseleted by postedMessage) */
+            #mymessage{
                 font-family: Tahoma, Geneva, sans-serif;
                 font-style: italic;
                 font-size: 15px;
                 margin: 0 auto;
-                position: fixed;
+                position:absolute;
                 bottom: 40px;
                 margin-top: 50px;
             }
+            
+            .messageBlock{
+                width: 700px;
+                margin: 15px auto;
+                /* Change colors! */
+                background: #29497F;
+                border: 5px solid #052C6E;
+                box-shadow: 5px 6px 5px #888888;
+                
+            }
+            
+            .message{
+                font-family: Tahoma, Geneva, sans-serif;
+                color: #CCC;   
+                margin: 5px auto;
+            }
+            
+            #messageField{
+                width: 200px;
+                font-family: Tahoma, Geneva, sans-serif;
+                outline-color: green;
+            }
+            
+            #messageForm{
+                font-family: Tahoma, Geneva, sans-serif;
+                font-size: 15px;
+                text-align: left;
+                margin-left: 35px;
+                margin-top: 10px;
+            }
+            
         </style>
     </head>
     <body>
         <div class = "header">
             <div class = "box">
-                <a class = "headerLink" href="http://michaelman.net/snake/SnakeGame.html">Snake</a>
+                <a class = "headerLink" href="snake/SnakeGame.html">Snake</a>
             </div>
             
             <div class = "box">
-                <a class = "headerLink" href="http://michaelman.net/minesweeper/minesweeper.html">Minesweeper</a>
+                <a class = "headerLink" href = "minesweeper/minesweeper.html">Minesweeper</a>
             </div>  
         </div>
         <div class ="content">
             <h1 id = "title">Welcome to Michael Man's Website!</h1>
-            <h2 id = message>The Man's Message: I'm boarding a plane to NY soon, so this website won't be updated for a few hours.</h2>
+            
+            
+            <form id = "messageForm">
+                Name: <input type="text" name="name" id= "nameField" autocomplete="off" style = "margin-left: 18px;"><br>
+                Message: <input type="text" name = "message" id = "messageField" autocomplete="off"><br>
+                <input id = "postButton" type="button" value="Post your own message!" onclick = "postMessage()">
+            </form>
+            
+            <div class ="messageBlock">
+                <p class = "message">Lorem ipsum dolor sit aie consectetur adipiscing. Plloaso mako nuto
+                    siwuf cakso dodtos anr koop. - Bob</p>
+            </div>
+            
+            <h2 id = "mymessage">The Man's Message: I'm boarding a plane to NY soon, so this website won't be updated for a few hours.</h2>
         </div>
     </body>
 </html>
