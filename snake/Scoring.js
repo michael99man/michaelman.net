@@ -90,25 +90,31 @@ function parseData(res){
 }
 
 function postScore(){
-    var name = document.getElementById("HighScoreForm").elements["name"].value;
+    var name = document.getElementById("HighScoreForm").elements.name.value;
     var score = SCORE;
-    //alert("POSTING: " + name + " - " + score);
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", "http://michaelman.net/snake/scores.php");
+
+    //Illegal chars 
+    name = name.replace('(', '');
+    name = name.replace(')', '');
+    name = name.replace(':', '');
+    score = score.replace('(', '');
+    score = score.replace(')', '');
+    score = score.replace(':', '');
     
-    var nameField = document.createElement("input");
-    nameField.setAttribute("type", "hidden");
-    nameField.setAttribute("name", "name");
-    nameField.setAttribute("value", name);
+    if (name === "" || score === ""){
+        return;
+    }
     
-    var scoreField = document.createElement("input");
-    scoreField.setAttribute("type", "hidden");
-    scoreField.setAttribute("name", "score");
-    scoreField.setAttribute("value", score);
+    var params = "name=" + encodeURIComponent(name) + "&score=" + encodeURIComponent(score);
     
-    form.appendChild(nameField);
-    form.appendChild(scoreField);
-    document.body.appendChild(form);
-    form.submit();
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "scores.php?" + Math.random(), true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send(params);
+    
+    xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            alert(xmlhttp.responseText);
+        }  
+    };
 }

@@ -5,29 +5,41 @@
 
 //Posts a message to the board with AJAX, then repaints the document
 function postMessage(){
-    var params = "name=" + document.getElementById("messageForm").elements.name.value + "&message=" + document.getElementById("messageForm").elements.message.value;
+    var name = document.getElementById("messageForm").elements.name.value;
+    var message = document.getElementById("messageForm").elements.message.value;
+
+     //Illegal chars 
+    name = name.replace('(', '');
+    name = name.replace(')', '');
+    name = name.replace(':', '');
+    message = message.replace('(', '');
+    message = message.replace(')', '');
+    message = message.replace(':', '');
     
-    //Illegal chars
-    params = params.replace('(', '');
-    params = params.replace(')', '');
-    params = params.replace(':', '');
+    if (name === "" || message === ""){
+        return;
+    }
     
-    alert(params);
+    var params = "name=" + encodeURIComponent(name) + "&message=" + encodeURIComponent(message);
+    document.getElementById("messageForm").elements.name.value = "";
+    document.getElementById("messageForm").elements.message.value = "";
+    
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "messageBoard.php", true);
+    xmlhttp.open("POST", "messageBoard.php?" + Math.random(), true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send(params);
+    
     xmlhttp.onreadystatechange = function(){
         if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-            alert("Message posted!");
             alert(xmlhttp.responseText);
         }  
     };
     
-    getData();
+    //getData();
 }
 
 function getData(){
-      //AJAX
+    //AJAX
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function()
     {
@@ -55,15 +67,15 @@ function drawPosts(response){
         
         var date = curLine.substring(dateOffset+1, dateOffsetTwo);
         var name = curLine.substring(0, dateOffset - 1);
-        var message = (offset + 3);
+        var message = curLine.substring(offset + 3);
         
         //NOTE: SUBSTRING INCLUDES START BUT NOT END. e.g. (1,4) of "hello" is "ell"
         var data = {name: name, message: message, date : date};
         dataArray.push(data);
         alert(name + " at " + date + " : " + message);
     }   
-
-    for (var x = 0; x<dataArray.length; dataArray++){
+    
+    for (var x = 0; x<dataArray.length; x++){
         
     }
 }

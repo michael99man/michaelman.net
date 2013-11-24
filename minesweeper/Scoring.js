@@ -64,13 +64,6 @@ function LoadFile(){
     };
     xmlhttp.open("GET","scores.txt?" + generateRandom(),true);
     xmlhttp.send();
-    
-    /*
-    document.getElementById("frmFile").src = ("scores.txt?" + text);
-    alert("PULLING FROM " + document.getElementById("frmFile").src);
-    var strRawContents =document.getElementById("frmFile").contentWindow.document.body.childNodes[0].innerHTML;
-    document.getElementById("frmFile").contentDocument.location.reload(true);
-    */
 }
 
 function parseData(res){
@@ -98,7 +91,32 @@ function parseData(res){
 function postScore(){
     var name = document.getElementById("HighScoreForm").elements.name.value;
     var score = TIME;
-    //alert("POSTING: " + name + " - " + score);
+
+    //Illegal chars 
+    name = name.replace('(', '');
+    name = name.replace(')', '');
+    name = name.replace(':', '');
+    score = score.replace('(', '');
+    score = score.replace(')', '');
+    score = score.replace(':', '');
+    
+    if (name === "" || score === ""){
+        return;
+    }
+    
+    var params = "name=" + encodeURIComponent(name) + "&score=" + encodeURIComponent(score);
+    
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "scores.php?" + Math.random(), true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send(params);
+    
+    xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            alert(xmlhttp.responseText);
+        }  
+    };
+    /*
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", "http://michaelman.net/minesweeper/scores.php");
@@ -117,4 +135,5 @@ function postScore(){
     form.appendChild(scoreField);
     document.body.appendChild(form);
     form.submit();
+    */
 }
