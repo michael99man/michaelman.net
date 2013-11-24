@@ -91,24 +91,17 @@ function parseData(res){
 
 function postScore(){
     var name = document.getElementById("HighScoreForm").elements.name.value;
+    alert("HERRO " + name);
     var score = SCORE;
 
     //Illegal chars 
     name = name.replace('(', '');
     name = name.replace(')', '');
     name = name.replace(':', '');
-    score = score.replace('(', '');
-    score = score.replace(')', '');
-    score = score.replace(':', '');
-    
-    if (name === "" || score === ""){
-        return;
-    }
     
     var params = "name=" + encodeURIComponent(name) + "&score=" + encodeURIComponent(score);
-    
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "scores.php?" + Math.random(), true);
+    xmlhttp.open("POST", "michaelman.net/snake/scores.php?" + Math.random(), true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send(params);
     
