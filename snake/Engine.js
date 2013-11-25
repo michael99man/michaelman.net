@@ -38,6 +38,7 @@ var FRUIT_X, FRUIT_Y;
 //STATES:
 var GAME_OVER = false;
 var WELCOME_SCREEN = true;
+var RAINBOW = false;
 
 function update() {
     frameCounter+=1;
@@ -46,7 +47,7 @@ function update() {
         tempFPS = 1000 / (thisLoop - lastLoop);
         lastLoop = thisLoop;
         tempFPS = Math.round(tempFPS*10)/10;
-
+        
         
         //Rendering blocks
         for (var i=0; i<blockList.length; i++){
@@ -183,7 +184,15 @@ function welcomeScreen(){
     CANVAS_HEIGHT = Canvas.height;
     
     //Adds a listener to the document
-    document.addEventListener("keypress", processInput, false);
+    document.addEventListener("keydown", processInput, false);
+    
+    //Prevents window scrolling
+    window.addEventListener("keydown", function(e) {
+        // space and arrow keys
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+    }, false);
     
     LENGTH_MAX = CANVAS_WIDTH/BLOCK_SIZE;    
     HEIGHT_MAX = CANVAS_HEIGHT/BLOCK_SIZE;
@@ -194,14 +203,23 @@ function welcomeScreen(){
     ctx.fillText("Welcome to my version of Snake!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 100);
     
     ctx.font = "italic 20px Impact";
-    ctx.fillText("Controls: WASD", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 20);
+    ctx.fillText("Controls: WASD/Arrow Keys", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 20);
     ctx.fillText("Press enter to begin!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
 }
 
 
 //Draws a snake block
 function draw(x, y) {
-    ctx.fillStyle = "#000000";
+    if (RAINBOW){
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.round(Math.random() * 15)];
+        }
+        ctx.fillStyle = color;
+    } else {
+        ctx.fillStyle = "#000000";
+    }
     ctx.fillRect(x,y,BLOCK_SIZE,BLOCK_SIZE);
 }
 
@@ -215,7 +233,7 @@ function processInput(key){
     if(GAME_OVER || WELCOME_SCREEN){
         if (keyCode == 13){ 
             //Enter (starts and restarts game)
-           
+            
             if(WELCOME_SCREEN){
                 WELCOME_SCREEN = false;
             } 
@@ -231,16 +249,19 @@ function processInput(key){
             }
         }
     } else {  
-        if (keyCode == 119){
+        if (keyCode == 119 || keyCode == 87 || keyCode == 38){
             changeDirection("Up");
-        } else if (keyCode == 115){
+        } else if (keyCode == 115 || keyCode == 83 || keyCode == 40){
             changeDirection("Down");
-        } else if (keyCode == 97){
+        } else if (keyCode == 97 || keyCode == 65 || keyCode == 37){
             changeDirection("Left");
-        } else if (keyCode == 100){
+        } else if (keyCode == 100 || keyCode == 68 || keyCode == 39){
             changeDirection("Right");
+        } else if (keyCode == 82 || 114) {
+            RAINBOW = RAINBOW ? false : true;
+            alert(RAINBOW ? "RAINBOW MODE ACTIVATED!" : "Rainbow mode disabled!");
         } else {
-            alert("Control the snake with W-A-S-D!");
+            alert("Control the snake with W-A-S-D OR the arrow keys! (" + keyCode + ")");
         }
     }
 }
