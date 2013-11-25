@@ -121,15 +121,14 @@ function moveBlocks(){
         if (block.x == FRUIT_X && block.y == FRUIT_Y){
             gotIt = true;
         }
+        draw(block.x * BLOCK_SIZE, block.y * BLOCK_SIZE);
         
         for (var j = 0; j<blockList.length; j++){
             if (block.x == blockList[j].x && block.y == blockList[j].y && j != i){
                 gameOver();
                 break;
             }
-        }
-        
-        draw(block.x * BLOCK_SIZE, block.y * BLOCK_SIZE);   
+        }   
     }
     
     if (gotIt){
@@ -174,6 +173,9 @@ function init(){
     SCORE = 0;
     document.getElementById("SCORE").innerHTML = ("SCORE: " + SCORE);
     document.getElementById("ScoreDisplay").innerHTML = "GAME IN PROGRESS";
+    document.getElementById("PostButton").disabled = true;
+    document.getElementById("nameField").disabled = true;
+    document.getElementById("PostButton").style.color = "#CC0000";
 }
 
 //Initializes
@@ -227,41 +229,44 @@ function clear(x,y){
     ctx.clearRect(x,y, BLOCK_SIZE, BLOCK_SIZE);
 }
 
-function processInput(key){
-    var keyCode = key.keyCode;
-    
-    if(GAME_OVER || WELCOME_SCREEN){
-        if (keyCode == 13){ 
-            //Enter (starts and restarts game)
+function processInput(event){
+    var keyCode = event.keyCode;
+    //Ignores keys when control/command is down (Enables keyboard shortcuts, right clicking etc)
+    if (!event.ctrlKey && event.keyCode !== 91 && event.keyCode !== 93 && event.keyCode !== 224){
+        if(GAME_OVER || WELCOME_SCREEN){
             
-            if(WELCOME_SCREEN){
-                WELCOME_SCREEN = false;
-            } 
-            if (GAME_OVER){
-                GAME_OVER = false;
-                SCORE=0;
+            if (keyCode == 13){ 
+                //Enter (starts and restarts game)
+                
+                if(WELCOME_SCREEN){
+                    WELCOME_SCREEN = false;
+                } 
+                if (GAME_OVER){
+                    GAME_OVER = false;
+                    SCORE=0;
+                }
+                init();
+            } else {
+                if (WELCOME_SCREEN){
+                    alert("Press Enter to Begin");
+                    event.preventDefault();
+                }
             }
-            init();
-        } else {
-            if (WELCOME_SCREEN){
-                alert("Press Enter to Begin");
-                key.preventDefault();
+        } else {  
+            if (keyCode == 119 || keyCode == 87 || keyCode == 38){
+                changeDirection("Up");
+            } else if (keyCode == 115 || keyCode == 83 || keyCode == 40){
+                changeDirection("Down");
+            } else if (keyCode == 97 || keyCode == 65 || keyCode == 37){
+                changeDirection("Left");
+            } else if (keyCode == 100 || keyCode == 68 || keyCode == 39){
+                changeDirection("Right");
+            } else if (keyCode == 82) {
+                RAINBOW = RAINBOW ? false : true;
+                alert(RAINBOW ? "RAINBOW MODE ACTIVATED!" : "Rainbow mode disabled!");
+            } else {
+                alert("Control the snake with W-A-S-D OR the arrow keys! (" + keyCode + ")");
             }
-        }
-    } else {  
-        if (keyCode == 119 || keyCode == 87 || keyCode == 38){
-            changeDirection("Up");
-        } else if (keyCode == 115 || keyCode == 83 || keyCode == 40){
-            changeDirection("Down");
-        } else if (keyCode == 97 || keyCode == 65 || keyCode == 37){
-            changeDirection("Left");
-        } else if (keyCode == 100 || keyCode == 68 || keyCode == 39){
-            changeDirection("Right");
-        } else if (keyCode == 82 || 114) {
-            RAINBOW = RAINBOW ? false : true;
-            alert(RAINBOW ? "RAINBOW MODE ACTIVATED!" : "Rainbow mode disabled!");
-        } else {
-            alert("Control the snake with W-A-S-D OR the arrow keys! (" + keyCode + ")");
         }
     }
 }
@@ -333,16 +338,27 @@ function generateFruit(){
 }
 
 function gameOver(){
+    GAME_OVER = true;
     ctx.fillStyle = "CC0033";
     ctx.textAlign = "center";
-    ctx.font = "bold 50px Impact";
-    ctx.fillText("GAME OVER!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 35);
-    
-    ctx.font = "italic 40px Impact";
-    ctx.fillText("Final Score: " + SCORE, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
     window.clearInterval(paintID);
-    GAME_OVER = true;
     document.getElementById("ScoreDisplay").innerHTML = "Your Score: " + SCORE;
-    document.getElementById("PostButton").disabled = false;
-    document.getElementById("nameField").disabled = false;
+    
+    //Paints the GAMEOVER message onto the canvas
+    if (SCORE !== 0){
+        ctx.font = "bold 90px Impact";
+        ctx.fillText("GAME OVER!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 60);
+        
+        ctx.font = "italic 55px Impact";
+        ctx.fillText("Final Score: " + SCORE, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+        
+        ctx.font = "italic 20px Impact";
+        ctx.fillText("Don't forget to submit your score below!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 + 30);
+        document.getElementById("PostButton").disabled = false;
+        document.getElementById("nameField").disabled = false;
+        document.getElementById("PostButton").style.color = "#008A2E";
+    } else {
+        ctx.font = "bold 120px Impact";
+        ctx.fillText("YOU SUCK AT LIFE", CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+    }
 }

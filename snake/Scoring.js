@@ -14,7 +14,11 @@ function drawTable(dataArray){
         }
         myTable += dataArray[i].name + "</td><td>" + dataArray[i].score + "</td></tr>";
     }
+    
+    //Expands contentPane to fit the table
     document.getElementById("table").innerHTML = myTable;
+    var tableHeight = parseInt(document.getElementById("table").clientHeight, 10);
+    document.getElementById("contentPane").style.height = (700 + tableHeight) + "px";
 }
 
 
