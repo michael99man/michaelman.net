@@ -82,8 +82,5 @@ function drawPosts(response){
         messages += block;
     }
     document.getElementById("messages").innerHTML = messages;
-    alert(document.getElementById("messages").clientHeight);
-    
-    document.getElementById("contentPane").style.height = (document.getElementById("messages").clientHeight + 75) + "px";
-    alert(document.getElementById("contentPane").style.height);
+    document.getElementById("contentPane").style.height = (document.getElementById("messages").clientHeight + 130) + "px";
 }
