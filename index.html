@@ -26,9 +26,8 @@
                 width: 860px;
                 background: #E0E0E0;
                 border: 5px solid #8c8c8c;;
-                height: 500px;
-                margin: 15px auto;
-                
+                height: 60px;
+                margin: 15px auto; 
             }
             
             .headerLink {
@@ -73,43 +72,72 @@
             }
             
             .messageBlock{
-                width: 700px;
+                width: 520px;
+                max-height: 150px;
+                min-height: 70px;
                 margin: 15px auto;
                 /* Change colors! */
-                background: #29497F;
-                border: 5px solid #052C6E;
+                background: #516B98;
+                border: 5px solid #41567A;
                 box-shadow: 5px 6px 5px #888888;
-                
             }
             
             .message{
+                position:relative;
                 font-family: Tahoma, Geneva, sans-serif;
-                color: #CCC;   
-                margin: 5px auto;
+                color: white;   
+                left: 10px;
+                vertical-align:top;
+            }
+            
+            #messages{
+                float: right;
+                margin-right: 20px;
             }
             
             #messageField{
-                width: 200px;
+                width: 170px;
                 font-family: Tahoma, Geneva, sans-serif;
                 outline-color: #3366FF;
+                resize:none;
             }
             
             #messageForm{
-                text-align: center;
-                max-width: 300px;
+                float: left;
+                max-width: 260px;
                 font-family: Tahoma, Geneva, sans-serif;
                 font-size: 15px;
                 text-align: left;
                 margin: 0 auto;
                 margin-top: 15px;
+                margin-left: 15px;
                 padding: 7px;
                 background-color: #F4F4F4;
                 border: 5px solid #000;
             }
+            #messageButton{
+                width: 200px;
+                height: 25px;
+                margin: 15px auto;
+                background: #d0d0d0;
+                border: 3px solid #c0c0c0;
+                box-shadow: 2px 2px 2px #888888;
+                font-family: Tahoma, Geneva, sans-serif;
+                font-size: 15px;
+                text-align:center;
+            }
+            .nameText{
+                font-style: italic;
+                color: #CCC;
+            }
+            .dateText{
+                color: #5E5E5E;
+                font-style:oblique;
+            }
             
         </style>
     </head>
-    <body>
+    <body onload = "getData()">
         <div class = "header">
             <div class = "box">
                 <a class = "headerLink" href="snake/SnakeGame.html">Snake</a>
@@ -119,21 +147,20 @@
                 <a class = "headerLink" href = "minesweeper/minesweeper.html">Minesweeper</a>
             </div>  
         </div>
-        <div class ="content">
+        <div class ="content" id = "contentPane">
             <h1 id = "title">Welcome to Michael Man's Website!</h1>
             
-            
             <form id = "messageForm">
-                Name: <input type="text" name="name" id= "nameField" autocomplete="off" style = "margin-left: 18px; outline-color: #3366FF;"><br>
-                Message: <textarea type="text" name = "message" id = "messageField" cols = 20 rows = 3 autocomplete="off"></textarea><br>
-                <input id = "postButton" type="button" value="Post your own message!" onclick = "postMessage()" style = "font-family: Tahoma, Geneva, sans-serif; border-radius:0px">
+                Name: <input type="text" maxlength = 24; name="name" id= "nameField" autocomplete="off" style = "margin-left: 18px; outline-color: #3366FF; width: 170px;"><br>
+                Message: <textarea type="text" maxlength = 200; name = "message" id = "messageField" cols = 20 rows = 3 autocomplete="off"></textarea><br>
+                <div id = "messageButton" onclick = "postMessage()">Submit your own message!</div>
             </form>
-            <div class ="messageBlock">
-                <p class = "message">Lorem ipsum dolor sit aie consectetur adipiscing. Plloaso mako nuto
-                    siwuf cakso dodtos anr koop. - Bob</p>
+            <div id = "messages">
+                <div class ="messageBlock">
+                    <p class = "message">Lorem ipsum dolor sit aie consectetur adipiscing. Plloaso mako nuto
+                        siwuf cakso dodtos anr koop. - Bob</p>
+                </div>
             </div>
-            
-            <h2 id = "mymessage">The Man's Message: I'm boarding a plane to NY soon, so this website won't be updated for a few hours.</h2>
         </div>
     </body>
 </html>

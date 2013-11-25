@@ -35,7 +35,7 @@ function postMessage(){
         }  
     };
     
-    //getData();
+    getData();
 }
 
 function getData(){
@@ -52,6 +52,7 @@ function getData(){
     xmlhttp.send();
 }
 
+//Parses the data and draws the boxes
 function drawPosts(response){
     var text = response.responseText + "";
     
@@ -72,10 +73,17 @@ function drawPosts(response){
         //NOTE: SUBSTRING INCLUDES START BUT NOT END. e.g. (1,4) of "hello" is "ell"
         var data = {name: name, message: message, date : date};
         dataArray.push(data);
-        alert(name + " at " + date + " : " + message);
+        //alert(name + " at " + date + " : " + message);
     }   
     
+    var messages = "";
     for (var x = 0; x<dataArray.length; x++){
-        
+        var block = "<div class = \"messageBlock\"><p class = \"message\">" + dataArray[x].message + "<br><span class = \"nameText\">&nbsp;&nbsp;- " + dataArray[x].name + "</span>&nbsp;&nbsp;<span class = \"dateText\">(" + dataArray[x].date + ")</span></p></div>";
+        messages += block;
     }
+    document.getElementById("messages").innerHTML = messages;
+    alert(document.getElementById("messages").clientHeight);
+    
+    document.getElementById("contentPane").style.height = (document.getElementById("messages").clientHeight + 75) + "px";
+    alert(document.getElementById("contentPane").style.height);
 }

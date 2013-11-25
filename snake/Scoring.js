@@ -79,6 +79,7 @@ function parseData(res){
         var curLine = arrLines[i];
         var offset = curLine.indexOf(" : ");
         var name = curLine.substring(0, offset);
+        name = name.replace(/\\/g, '');
         var score = parseInt(curLine.substring(offset + 3), null);
         //NOTE: SUBSTRING INCLUDES START BUT NOT END. e.g. (1,4) of "hello" is "ell"
         var data = {name: name, score: score};
