@@ -91,7 +91,6 @@ function parseData(res){
 
 function postScore(){
     var name = document.getElementById("HighScoreForm").elements.name.value;
-    alert("HERRO " + name);
     var score = SCORE;
 
     //Illegal chars 
@@ -101,7 +100,7 @@ function postScore(){
     
     var params = "name=" + encodeURIComponent(name) + "&score=" + encodeURIComponent(score);
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "michaelman.net/snake/scores.php?" + Math.random(), true);
+    xmlhttp.open("POST", "scores.php", true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send(params);
     
@@ -110,4 +109,5 @@ function postScore(){
             alert(xmlhttp.responseText);
         }  
     };
+    LoadFile();
 }

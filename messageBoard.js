@@ -25,7 +25,7 @@ function postMessage(){
     document.getElementById("messageForm").elements.message.value = "";
     
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "messageBoard.php?" + Math.random(), true);
+    xmlhttp.open("POST", "messageBoard.php", true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send(params);
     

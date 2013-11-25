@@ -107,7 +107,7 @@ function postScore(){
     var params = "name=" + encodeURIComponent(name) + "&score=" + encodeURIComponent(score);
     
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "scores.php?" + Math.random(), true);
+    xmlhttp.open("POST", "scores.php", true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send(params);
     
@@ -116,24 +116,5 @@ function postScore(){
             alert(xmlhttp.responseText);
         }  
     };
-    /*
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", "http://michaelman.net/minesweeper/scores.php");
-    
-    var nameField = document.createElement("input");
-    nameField.setAttribute("type", "hidden");
-    nameField.setAttribute("name", "name");
-    nameField.setAttribute("value", name);
-    
-    var scoreField = document.createElement("input");
-    scoreField.setAttribute("type", "hidden");
-    scoreField.setAttribute("name", "score");
-    scoreField.setAttribute("value", score);
-    
-    form.appendChild(nameField);
-    form.appendChild(scoreField);
-    document.body.appendChild(form);
-    form.submit();
-    */
+    LoadFile();
 }

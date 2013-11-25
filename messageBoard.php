@@ -3,20 +3,21 @@
 
 switch($_SERVER['REQUEST_METHOD'])
 {
-    case 'GET': $the_request = &$_GET; echo "Illegal Access! Use the form at www.michaelman.net to post to the   message board."; break;
-    case 'POST': $the_request = &$_POST; 
-    writeToFile($_POST['name'], $_POST['messsage']);
+    case 'GET': 
+        echo "Illegal Access! Use the form at www.michaelman.net to post to the message board.";             break;
+    case 'POST': 
+        writeToFile($_POST['name'], $_POST['message']);
     /*foreach ($_POST as $key => $value){
         echo $key . " -> " . $value . "\n";
     }*/
-    echo ("Message posted successfully!"); 
-    break;
+        echo ("Message posted successfully!"); 
+        break;
 }
     
     function writeToFile($name, $message){
         $file = "messages.txt";
         $fh = fopen($file, 'a');
-        $data = "\n" . $name . " (" . date('m-d-Y') . ") : " . $score;
+        $data = "\n" . $name . " (" . date('m-d-Y') . ") : " . $message;
         fwrite($fh, $data);
         fclose($fh);
     }

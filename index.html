@@ -5,7 +5,7 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">    
         
-        <script src = "messageBoard.js?ver=1.2"></script>
+        <script src = "messageBoard.js?ver=1.25"></script>
         <style type="text/css">
             body{
                 margin:1px;
@@ -91,15 +91,20 @@
             #messageField{
                 width: 200px;
                 font-family: Tahoma, Geneva, sans-serif;
-                outline-color: green;
+                outline-color: #3366FF;
             }
             
             #messageForm{
+                text-align: center;
+                max-width: 300px;
                 font-family: Tahoma, Geneva, sans-serif;
                 font-size: 15px;
                 text-align: left;
-                margin-left: 35px;
-                margin-top: 10px;
+                margin: 0 auto;
+                margin-top: 15px;
+                padding: 7px;
+                background-color: #F4F4F4;
+                border: 5px solid #000;
             }
             
         </style>
@@ -119,11 +124,10 @@
             
             
             <form id = "messageForm">
-                Name: <input type="text" name="name" id= "nameField" autocomplete="off" style = "margin-left: 18px;"><br>
-                Message: <input type="text" name = "message" id = "messageField" autocomplete="off"><br>
-                <input id = "postButton" type="button" value="Post your own message!" onclick = "postMessage()">
+                Name: <input type="text" name="name" id= "nameField" autocomplete="off" style = "margin-left: 18px; outline-color: #3366FF;"><br>
+                Message: <textarea type="text" name = "message" id = "messageField" cols = 20 rows = 3 autocomplete="off"></textarea><br>
+                <input id = "postButton" type="button" value="Post your own message!" onclick = "postMessage()" style = "font-family: Tahoma, Geneva, sans-serif; border-radius:0px">
             </form>
-            
             <div class ="messageBlock">
                 <p class = "message">Lorem ipsum dolor sit aie consectetur adipiscing. Plloaso mako nuto
                     siwuf cakso dodtos anr koop. - Bob</p>
