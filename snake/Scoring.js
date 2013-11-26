@@ -64,13 +64,6 @@ function LoadFile(){
     };
     xmlhttp.open("GET","scores.txt?" + text,true);
     xmlhttp.send();
-    
-    /*
-    document.getElementById("frmFile").src = ("scores.txt?" + text);
-    alert("PULLING FROM " + document.getElementById("frmFile").src);
-    var strRawContents =document.getElementById("frmFile").contentWindow.document.body.childNodes[0].innerHTML;
-    document.getElementById("frmFile").contentDocument.location.reload(true);
-    */
 }
 
 function parseData(res){

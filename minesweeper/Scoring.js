@@ -15,6 +15,8 @@ function drawTable(dataArray){
         myTable += dataArray[i].name + "</td><td>" + dataArray[i].score + "</td></tr>";
     }
     document.getElementById("table").innerHTML = myTable;
+    var tableHeight = parseInt(document.getElementById("table").clientHeight, 10);
+    document.getElementById("contentPane").style.height = (600 + tableHeight) + "px";
 }
 
 
@@ -88,7 +90,6 @@ function parseData(res){
 }
 
 
-//TODO: Use AJAX to simplify!
 function postScore(){
     var name = document.getElementById("HighScoreForm").elements.name.value;
     var score = TIME;

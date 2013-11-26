@@ -4,22 +4,133 @@
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">
+                <style type ="text/css">
+            body{
+                margin:1px;
+                background:#202020;
+            }
+            .header-cont {width : 100%; position: fixed; top:10px;}
+            .header {
+                height:70px;
+                background:#535353;
+                border: 10px solid #262626;
+                width: 1100px;
+                top: 10px;
+                position: static;
+                margin:15px auto;
+                border-radius: 5px;
+            }
+            .content {
+                width: 1100px;
+                background: #E0E0E0;
+                border: 5px solid #8c8c8c;;
+                height: 730px;
+                margin: 15px auto; 
+            }
+            
+            .headerLink {
+                text-decoration: none;
+                color: #FFF;
+                margin: 0 auto;
+                font-size: 30px;
+                font-family: Tahoma, Geneva, sans-serif;
+            }
+            .box{
+                display: block;
+                float: left;
+                margin-top:10px;
+                margin-bottom: 10px;
+                margin-left: 10px;
+                padding: 0px 3px;
+                background: #29497F;
+                border: 5px solid #052C6E;
+                position:relative;
+                box-shadow: 5px 6px 5px #888888;
+                border-radius: 5px;
+            }
+            #table{
+                min-height: 50px;
+                margin-top: 25px;
+            }
+            
+            .canvas{
+                position: static;
+                margin: 0 auto;
+                display: block;
+                border: 8px inset #8c8c8c;
+            }
+        
+            #HighScoreForm{
+                margin: 10px 10px;
+                border: 1px solid black;
+                float: left;
+                max-width: 700px;
+                font-family: Tahoma, Geneva, sans-serif;
+                font-size: 15px;
+                text-align: center;
+                margin: 25px 70px;
+                padding: 7px;
+                background-color: #F4F4F4;
+                border: 5px solid #000;
+                font-family: Tahoma, Geneva, sans-serif;
+                font-size:20px;
+                font-style: italic;
+            }
+            #PostButton{
+                float:none;
+                background: #EEEEEE;
+                font-family: Tahoma, Geneva, sans-serif;
+                font-size: 20px;
+                border: 3px solid #9C9191; 
+                border-radius: 5px;
+                color: #CC0000;
+            }
+                    
+            #mineCounter{
+                font-family: Tahoma, Geneva, sans-serif;
+                margin-left: 30px;
+                font-style: italic;
+                margin-left: 100px;
+                float: left;
+                border: 3px solid black;
+                padding-right: 10px;
+            }
+            #TimeDisplay{
+                font-family: Tahoma, Geneva, sans-serif;
+                margin-left: 30px;
+                float: right;
+                margin-right: 100px;
+                font-style: italic;
+                border: 3px solid black;
+                padding-right: 10px;
+            }
+        </style>
     </head>
-    <script src="Engine.js?ver=1.65"></script>
-    <script src="Scoring.js?ver=1.26"></script>
-    <body oncontextmenu="return false;" onload="LoadFile();"> 
-        <!-- Disables right clicking (for flagging) -->
-        <h1>Minesweeper</h1>
-        <h4 id = "mineCounter" >Mines left: </h4>
-        <h4 id = "TimeDisplay" >Seconds Elapsed: NOT STARTED</h4>
-        <canvas id = "Canvas" width="400" height="450"
-                style="border:1px solid #000000;"></canvas>
-        <script>init()</script>
-        <form id = "HighScoreForm">
-            Name: <input type="text" name="name" id= "nameField" disabled><br>
-            <p id = "ScoreDisplay">GAME IN PROGRESS</p>
-            <input id = "PostButton" type="button" value="Submit High Score!" onclick = "postScore()" disabled>
-        </form>
-        <div id="table"></div>
+    <script src="Engine.js?ver=1.66"></script>
+    <script src="Scoring.js?ver=1.27"></script>
+    <body onload="LoadFile();" oncontextmenu="return false;">
+        <div class = "header"> 
+            <div class = "box">
+                <a class = "headerLink" href="../snake/SnakeGame.html">Snake</a>
+            </div>
+            
+            <div class = "box">
+                <a class = "headerLink" href = "../minesweeper/minesweeper.html">Minesweeper</a>
+            </div>  
+        </div>
+        
+        <div class = "content" id = "contentPane">
+            <h1 id = "mineCounter">Mines left: 0</h1>
+            <h1 id = "TimeDisplay">Seconds Elapsed: 0</h1>
+            <canvas class = "canvas" id="Canvas" width="900" height="400">
+            </canvas>
+            <script>init()</script>
+            <form id = "HighScoreForm">
+                Name: <input type="text" name="name" id= "nameField" disabled style = "font-family: Tahoma, Geneva, sans-serif; font-size:20px;"><br>
+                <span id = "ScoreDisplay" style = "font-size: 30px">CLICK ANYWHERE</span><br>
+                <input id = "PostButton" type="button" value="Submit High Score!" onclick = "postScore(); return false;" disabled>
+            </form>
+            <div id="table"></div>
+            </div>
     </body>
 </html>

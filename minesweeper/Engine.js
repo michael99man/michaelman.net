@@ -13,7 +13,7 @@ var Canvas;
 var ctx;
 var BLOCK_SIZE = 25;
 
-var MINE_TOTAL = 35;
+var MINE_TOTAL = 100;
 
 //SPRITES:
 var MINE_IMG = document.createElement("img");
@@ -204,7 +204,8 @@ function processClick(id, event){
         started = true;
         generateMap(id);
         document.getElementById("TimeDisplay").innerHTML = "Seconds Elapsed: 0";
-        timer = window.setInterval(updateTime, 1000 );
+        timer = window.setInterval(updateTime, 1000);
+        document.getElementById("ScoreDisplay").innerHTML = "GAME IN PROGRESS";
         return;
     }
     
@@ -353,6 +354,7 @@ function init(){
     
     Canvas.addEventListener('contextmenu', click, false); 
     Canvas.addEventListener('click', click, false);
+    document.body.addEventListener('keypress', processKey, false);
     
     MINE_COUNTER = document.getElementById("mineCounter");
     MINE_COUNTER.innerHTML="Mines left: " + MINE_TOTAL + "/" + MINE_TOTAL;
@@ -360,6 +362,41 @@ function init(){
     BLOCK_IMG.addEventListener('load', function() {
         drawGame();
     }, false);  
+}
+
+function processKey(event){
+    if (GAME_OVER && event.keyCode == 13){
+        flaggedTotal = 0;
+        TIME = 0;
+        started = false;
+        GAME_OVER = false;
+        blockList = [];
+        MINE_COUNTER.innerHTML="Mines left: " + MINE_TOTAL + "/" + MINE_TOTAL;
+        document.getElementById("PostButton").disabled = true;
+        document.getElementById("nameField").disabled = true;
+        document.getElementById("PostButton").style.color = "#CC0000";
+        document.getElementById("ScoreDisplay").innerHTML = "GAME IN PROGRESS";
+        drawGame();
+    } else {
+        if (event.keyCode == 82 || event.keyCode == 114){
+            //RAAAANDOM!
+            alert("Oops. You've broken the game! GOOD LUCK!");
+            for (var i = 0; i<blockList.length; i++){
+                //Randomizes all the number blocks 
+                //YOLOSWAG
+                if (blockList[i].type !== "mine" && blockList[i].type !== null){
+                    blockList[i].type = Math.floor(Math.random() * (5)) + 1;
+                    if (blockList[i].revealed){
+                        blockList[i].revealed = false;
+                        reveal(blockList[i].id);
+                    }
+                }
+            }
+        } else if (event.keyCode == 75 || event.keyCode == 107){
+            alert("For some reason, you decided to press \"K\". For that, I'll have to kill you");
+            gameOver();
+        }
+    }
 }
 
 //Flags a block
@@ -399,12 +436,12 @@ function winGame(){
     ctx.fillStyle = "000099";
     ctx.textAlign = "center";
     ctx.font = "bold 80px Impact";
-    ctx.fillText("YOU WIN!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 50);
-    
-    //Only enables submission if 
+    ctx.fillText("YOU'VE CLEARED THE MINEFIELD!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 50);
+     
     document.getElementById("PostButton").disabled = false;
     document.getElementById("nameField").disabled = false;
     document.getElementById("ScoreDisplay").innerHTML = "Final Time: " + TIME;
+    document.getElementById("PostButton").style.color = "#008A2E";
 }
 
 function gameOver(){
@@ -418,8 +455,10 @@ function gameOver(){
     }
     ctx.fillStyle = "CC0033";
     ctx.textAlign = "center";
-    ctx.font = "bold 80px Impact";
-    ctx.fillText("GAME OVER!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 - 50);
+    ctx.font = "bold 150px Impact";
+    ctx.fillText("GAME OVER!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+    ctx.font = "italic 40px Impact";
+    ctx.fillText("Press enter to try again!", CANVAS_WIDTH/2, CANVAS_HEIGHT/2 + 40);
 }
 
 function updateTime(){
