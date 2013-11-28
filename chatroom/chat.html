@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>   
+<html>
+    <head>  
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">
+        <title>Chat</title>  
+        <link type="text/css" rel="stylesheet" href="style.css">
+    </head>  
+    
+    <script src = "GetThead.js?ver=0.1"></script>
+    <script src = "CanvasController.js?ver=0.1"></script>
+    <script src = "Poster.js?ver=0.1"></script>
+    <body>
+        <div id="wrapper">  
+            
+            <div id = "nameArea">
+                <form>
+                    Name: <input type="text" id = "nameBox">
+                    <button style = "width: 100px; margin-bottom: 10px;" onclick= "setName();">Set Name</button>
+                </form>
+            </div>
+            
+            <div id="canvasContainer">
+                <canvas id="chatbox" width="600px" height="500px"></canvas>  
+            </div>
+            
+            <form id="textForm" onsubmit="send()">
+                <input type = "text" id = "textField" style = "width: 500px; margin-right: 15px; float:left; margin-top: 10px;">
+                <button style= "float: left; width: 85px; margin-top: 10px;" type="button">Send!</button>
+            </form>
+        
+        </div>  
+    </body>  
+</html>  

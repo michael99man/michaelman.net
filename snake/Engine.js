@@ -1,4 +1,5 @@
-/*jslint browser:true, white: true, plusplus: true, maxerr:1000 */
+/*jslint browser:true, white: true, plusplus: true, maxerr:1000, devel: true*/
+
 
 var initialized = false;
 var Canvas;
@@ -180,6 +181,7 @@ function init(){
 
 //Initializes
 function welcomeScreen(){
+    console.log("Herro");
     Canvas = document.getElementById("Canvas");
     ctx = Canvas.getContext("2d");
     CANVAS_WIDTH = Canvas.width;

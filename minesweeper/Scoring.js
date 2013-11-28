@@ -1,4 +1,5 @@
-/*jslint browser:true, white: true, plusplus: true, maxerr:1000 */
+/*jslint browser:true, white: true, plusplus: true, maxerr:1000, devel:true */
+/* global TIME */
 //Role: To parse and write to text file to save data
 //Also must construct the table as well as sort the list
 

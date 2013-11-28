@@ -17,7 +17,8 @@ switch($_SERVER['REQUEST_METHOD'])
     function writeToFile($name, $message){
         $file = "messages.txt";
         $fh = fopen($file, 'a');
-        $data = "\n" . $name . " (" . date('m-d-Y') . ") : " . $message;
+        //Prevents injection
+        $data = htmlspecialchars("\n" . $name . " (" . date('m-d-Y') . ") : " . $message);
         fwrite($fh, $data);
         fclose($fh);
     }

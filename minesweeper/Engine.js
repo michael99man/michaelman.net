@@ -1,4 +1,4 @@
-/*jslint browser:true, white: true, plusplus: true, maxerr:1000 */
+/*jslint browser:true, white: true, plusplus: true, maxerr:1000, devel:true */
 
 var CANVAS_WIDTH;
 var CANVAS_HEIGHT;
