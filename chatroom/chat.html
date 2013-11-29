@@ -9,9 +9,9 @@
         <link type="text/css" rel="stylesheet" href="style.css">
     </head>  
     
-    <script src = "GetThead.js?ver=0.2"></script>
-    <script src = "CanvasController.js?ver=0.1"></script>
-    <script src = "Poster.js?ver=0.2"></script>
+    <script src = "GetThead.js?ver=0.3"></script>
+    <script src = "CanvasController.js?ver=0.21"></script>
+    <script src = "Poster.js?ver=0.31"></script>
     <body>
         <div id="wrapper">  
             <div id = "nameArea">
@@ -20,7 +20,7 @@
             </div>
             
             <div id="canvasContainer">
-                <canvas id="chatbox" width="600px" height="500px"></canvas>  
+                <canvas id="chatCanvas" width="600px" height="500px" onload="initCanvas()"></canvas>  
             </div>
             
             <div id="textForm">

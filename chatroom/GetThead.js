@@ -36,11 +36,11 @@ function parse(rawText){
         //Paint the new messages and add them to messages
         for (var i = 0; i<newLines.length; i++){
             //TODO: Get date/time according to current timezone
-            //Parse the message object || Current structure: \n name : message (** m-d-y h-i-s a **)
+            //Parse the message object || Current structure: \n name : message (**m-d-y h-i-s a**)
             var raw = newLines[i];
             var name = raw.substring(0, raw.indexOf(" : "));
-            var message = raw.substring(raw.indexOf(" : "), raw.indexOf(" (**"));
-            var date = raw.substring(raw.indexOf(" (**") + 4, raw.indexOf(" **)"));
+            var message = raw.substring(raw.indexOf(" : ") + 3, raw.indexOf(" (**"));
+            var date = raw.substring(raw.indexOf(" (**") + 4, raw.indexOf("**)"));
             var messageObject = {"name" : name, "message" : message, "date" : date};
             console.log("Received: " + messageObject.name + " : " + messageObject.message + " at " + messageObject.date);
             messages.push(messageObject);

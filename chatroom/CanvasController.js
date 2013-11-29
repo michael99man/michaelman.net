@@ -4,7 +4,7 @@
 //Top of the next message
 var maxY = 20;
 
-var canvas = document.getElementById("chatbox");
+var canvas;
 var ctx;
 
 //Pass a message object
@@ -14,4 +14,9 @@ function drawMessage(message){
     ctx.fillStyle("#000")
     ctx.fillText(message.name + " : " + message.message, 10, maxY);
     maxY += 30;
+}
+
+function initCanvas(){
+    alert("Canvas initialized");
+    canvas = document.getElementById("chatCanvas");
 }

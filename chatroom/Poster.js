@@ -28,7 +28,7 @@ function send(){
     if (name === null || name === "" || message === ""){
         return;
     }
-    var messageObject = {"name" : name, "message" : message, "date" : null);
+    var messageObject = {"name" : name, "message" : message, "date" : null};
     
     var params = "name=" + encodeURIComponent(name) + "&message=" + encodeURIComponent(message);
     document.getElementById("textField").value = "";
@@ -40,7 +40,6 @@ function send(){
         if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
             var response = xmlhttp.responseText;
             //Message sent successfully
-            alert(response);
             //Get date data from response
             var date = response.substring(response.indexOf(": ") + 2);
             messageObject.date = date;
