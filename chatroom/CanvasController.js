@@ -12,6 +12,6 @@ function drawMessage(message){
     ctx = canvas.getContext("2d");
     ctx.font = "15px italic Tahoma";
     ctx.fillStyle("#000")
-    ctx.fillText(message.message, 10, maxY);
+    ctx.fillText(message.name + " : " + message.message, 10, maxY);
     maxY += 30;
 }
