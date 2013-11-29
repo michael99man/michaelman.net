@@ -1,5 +1,4 @@
-/*jslint browser:true, white: true, plusplus: true, maxerr:1000 */
-
+/*jshint browser:true, white: true, plusplus: true, maxerr:1000 */
 
 //Creates the messageboard element on Index.html
 

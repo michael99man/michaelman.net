@@ -1,5 +1,5 @@
 /*jslint browser:true, white: true, plusplus: true, maxerr:1000 */
-
+/* global console, updateView */
 
 //Not an actual thread
 //Interval to pull from server
@@ -28,14 +28,18 @@ function pull(){
 }
 
 function parse(rawText){
-    var arrLines = text.split("\n");
-    var newLines = arrLines.splice(messages.length+1)
-    if (newLines.length ==0 ){
+    var arrLines = rawText.split("\n");
+    var newLines = arrLines.splice(messages.length+1);
+    if (newLines.length === 0 ){
         console.log("NOTHING NEW");
     } else {
         //Paint the new messages and add them to messages
         for (var i = 0; i<newLines.length; i++){
-            console.log(newLines[i]);
+            //TODO: Get date/time according to current timezone
+            //Parse the message object    
+        
+            console.log("Added: " + newLines[i]);
+            messages.push(newLines[i]);
         }
     }
 }
