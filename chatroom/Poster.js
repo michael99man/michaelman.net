@@ -1,5 +1,5 @@
 /*jslint browser:true, white: true, plusplus: true, maxerr:1000 */
-/* global name, messages, getData, console, alert, init */
+/* global name, messages, getData, console, alert, init, drawMessage */
 
 var name = "";
 
@@ -12,11 +12,10 @@ function checkInput(e){
 }
 
 function send(){
-    if (name == ""){
+    if (name === ""){
         alert("Set your name first!");
         return;
     }
-    alert("Sending!");
     var message = document.getElementById("textField").value;
     document.getElementById("textField").value = "";
     //Illegal chars 
@@ -91,7 +90,7 @@ function updateView(){
 
 window.onbeforeunload = function (e) {
     leaveChatroom();
-}
+};
 
 //Tells the server that the user has left the chatroom
 function leaveChatroom(){

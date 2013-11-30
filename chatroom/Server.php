@@ -29,6 +29,7 @@ switch($_SERVER['REQUEST_METHOD'])
         userJoined($_POST['name']);
     } else if (hasHeader("LogoutPost")){
         //Logout
+        userLeft($_POST['name']);
     } else {
         echo "Error!";
     }
@@ -46,8 +47,9 @@ function userJoined($name){
         $array = array($name);
         apc_store('userList', $array);
     }
-    echo "Name set!";
-    writeToFile($name, " has entered the chatroom!");
+    echo "Name set!\n";
+    echo print_r(apc_fetch('userList'));
+    writeToFile("Server", $name . " has entered the chatroom!");
 }
 
 function userLeft($name){
@@ -58,8 +60,10 @@ function userLeft($name){
         }
         $index++;
     }
-    array_splice($array, $index,1);
-    writeToFile($name, " has left the chatroom!");
+    array_splice($array, $index, 1);
+    apc_store('userList', $array);
+    writeToFile("Server", $name . " has left the chatroom!");
+    //TODO: Clear log when all users have left
 }
 
 

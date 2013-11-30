@@ -1,6 +1,5 @@
 #container {
-    height: 300px;
-    width: 600px;
+    max-width: 600px;
     overflow: auto;
     overflow-x: hidden;
     border: 5px solid #000;  
@@ -9,15 +8,54 @@
 #chatFrame {  
     text-align:left;  
     margin:0 auto;  
-    margin-bottom:25px;  
-    padding:10px;  
-    background:#fff;  
-    height: 300px;  
-    width:600px;
+    background:#FFF; 
+    max-width: 600px;
 }   
 
-.message{
-    background: #bbb;
-    height: 200px;
-    width: 40px;
+//Used for messages sent by the user
+//Blue box
+.myMessage{
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 10px;
+}
+
+.myMessageBox{
+    background: #4CB9FC;
+    max-height: 50px;
+    min-width: 50px;
+    padding: 6px;
+    border: 2px solid #000;  
+    display: block;
+    float: left;
+    margin-left: 5px;
+    margin-top: 12px;
+    border-radius: 15px;
+}
+
+//Used for messages received by the user
+.theirMessage{
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 10px;
+}
+
+.theirMessageBox{
+    background: #43FA6E;
+    max-height: 50px;
+    max-width: 550px;
+    min-width: 50px;
+    padding: 6px;
+    border: 2px solid #000;
+    
+    display: block;
+    float: right;
+    margin-right: 5px;
+    margin-top: 12px;
+    border-radius: 15px;
+}
+
+#body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    min-height: 300px;
+    max-width: 600px;
 }
