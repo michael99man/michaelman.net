@@ -6,12 +6,12 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">
         <title>Chat</title>  
-        <link type="text/css" rel="stylesheet" href="style.css">
+        <link type="text/css" rel="stylesheet" href="style.css?ver=0.1">
     </head>  
     
-    <script src = "GetThead.js?ver=0.3"></script>
-    <script src = "CanvasController.js?ver=0.21"></script>
-    <script src = "Poster.js?ver=0.31"></script>
+    <script src = "GetThead.js?ver=0.35"></script>
+    <script src = "CanvasController.js?ver=0.256"></script>
+    <script src = "Poster.js?ver=0.35"></script>
     <body>
         <div id="wrapper">  
             <div id = "nameArea">
@@ -20,8 +20,12 @@
             </div>
             
             <div id="canvasContainer">
-                <canvas id="chatCanvas" width="600px" height="500px" onload="initCanvas()"></canvas>  
+                <canvas id="chatCanvas" width="600px" height="500px"></canvas>  
             </div>
+            
+            <script>
+                initCanvas();
+            </script>
             
             <div id="textForm">
                 <input type = "text" onkeydown = "checkInput()" id = "textField" style = "width: 500px; margin-right: 15px; float:left; margin-top: 10px;">
@@ -29,4 +33,3 @@
             </div>
         </div>  
     </body>  
-</html>  

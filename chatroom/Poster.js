@@ -45,6 +45,7 @@ function send(){
             messageObject.date = date;
             messages.push(messageObject);
             drawMessage(messageObject);
+            console.log("Posting sent message! (" + messageObject.message + ")");
         }  
     };
     console.log("SENDING: \"" + message + "\"");
