@@ -12,45 +12,10 @@
     max-width: 600px;
 }   
 
-//Used for messages sent by the user
-//Blue box
-.myMessage{
+.message{
     font-family: Tahoma, Geneva, sans-serif;
-    font-size: 10px;
-}
-
-.myMessageBox{
-    background: #4CB9FC;
-    max-height: 50px;
-    min-width: 50px;
-    padding: 6px;
-    border: 2px solid #000;  
-    display: block;
-    float: left;
-    margin-left: 5px;
-    margin-top: 12px;
-    border-radius: 15px;
-}
-
-//Used for messages received by the user
-.theirMessage{
-    font-family: Tahoma, Geneva, sans-serif;
-    font-size: 10px;
-}
-
-.theirMessageBox{
-    background: #43FA6E;
-    max-height: 50px;
-    max-width: 550px;
-    min-width: 50px;
-    padding: 6px;
-    border: 2px solid #000;
-    
-    display: block;
-    float: right;
-    margin-right: 5px;
-    margin-top: 12px;
-    border-radius: 15px;
+    font-size: 15px;
+    margin: 2px 5px; 
 }
 
 #body {
@@ -58,4 +23,5 @@
     overflow-x: hidden;
     min-height: 300px;
     max-width: 600px;
+    position: relative;
 }

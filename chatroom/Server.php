@@ -63,7 +63,10 @@ function userLeft($name){
     array_splice($array, $index, 1);
     apc_store('userList', $array);
     writeToFile("Server", $name . " has left the chatroom!");
-    //TODO: Clear log when all users have left
+    //Clear log when all users have left
+    if (count($array) == 0){
+        file_put_contents("log.txt", "");
+    }
 }
 
 

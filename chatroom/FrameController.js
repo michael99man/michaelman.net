@@ -10,19 +10,16 @@ var HEIGHT;
 
 //Pass a message object
 function drawMessage(message){
-    var newElement = frame.contentDocument.createElement('div');
-    var span = frame.contentDocument.createElement('span');
-    if (message.name == name){
-        span.innerHTML = "<span class=\"myMessage\">" + message.name + " : " + message.message + "</span>";
-        newElement.innerHTML = "<div class = \"myMessageBox\">" + span.innerHTML + "</div>";
-    } else if (message.name == "Server"){
-        //Message from server!
-        //Gray and centered!
-    } else {
-        span.innerHTML = "<span class=\"theirMessage\">" + message.name + " : " + message.message + "</span>";
-        newElement.innerHTML = "<div class = \"theirMessageBox\">" + span.innerHTML + "</div><br><br>";
+    var text = frame.contentDocument.createElement('h4');
+    text.classList.add("message");
+    text.innerHTML = message.name + " : " + message.message + "<br>";
+    
+    if (message.name == "Server"){
+        text.style.fontStyle = "italic";
+        text.style.margin = "2px 5px";
+        text.innerHTML = "(" + message.date + ") " + message.name + " : " + message.message + "<br>";
     }
-    frame.contentDocument.body.appendChild(newElement);
+    frame.contentDocument.body.appendChild(text);
 }
 
 function initFrame(){
