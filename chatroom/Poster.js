@@ -36,6 +36,7 @@ function send(){
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "Server.php", true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader("MessagePost", "MessagePost");
     xmlhttp.onreadystatechange = function(){
         if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
             var response = xmlhttp.responseText;
@@ -63,6 +64,18 @@ function setName(){
         name = temp;
         alert("Name set to: " + name);
         document.getElementById("nameBox").value = "";
+        
+        var params = "name=" + encodeURIComponent(name);     
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "Server.php", true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.setRequestHeader("LoginPost", "LoginPost");
+        xmlhttp.onreadystatechange = function(){
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                console.log(xmlhttp.responseText);
+            }  
+        };
+        xmlhttp.send(params);   
         init();
         updateView();
     }
@@ -75,3 +88,23 @@ function updateView(){
         document.getElementById("nameArea").innerHTML = view;
     }
 }
+
+window.onbeforeunload = function (e) {
+    leaveChatroom();
+}
+
+//Tells the server that the user has left the chatroom
+function leaveChatroom(){
+    var params = "name=" + encodeURIComponent(name);     
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "Server.php", true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader("LogoutPost", "LogoutPost");
+    xmlhttp.onreadystatechange = function(){
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            console.log(xmlhttp.responseText);
+        }  
+    };
+    xmlhttp.send(params);   
+}
+

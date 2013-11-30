@@ -1,4 +1,4 @@
-#canvasContainer {
+#container {
     height: 300px;
     width: 600px;
     overflow: auto;
@@ -6,7 +6,7 @@
     border: 5px solid #000;  
 }
 
-#chatbox {  
+#chatFrame {  
     text-align:left;  
     margin:0 auto;  
     margin-bottom:25px;  
@@ -16,6 +16,8 @@
     width:600px;
 }   
 
-#wrapper{
-    background: #fff;
+.message{
+    background: #bbb;
+    height: 200px;
+    width: 40px;
 }

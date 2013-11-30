@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>   
 <html>
     <head>  
@@ -6,12 +5,12 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">
         <title>Chat</title>  
-        <link type="text/css" rel="stylesheet" href="style.css?ver=0.1">
+        <link type="text/css" rel="stylesheet" href="style.css?ver=0.2">
     </head>  
     
     <script src = "GetThead.js?ver=0.35"></script>
-    <script src = "CanvasController.js?ver=0.256"></script>
-    <script src = "Poster.js?ver=0.35"></script>
+    <script src = "FrameController.js?ver=0.30"></script>
+    <script src = "Poster.js?ver=0.387"></script>
     <body>
         <div id="wrapper">  
             <div id = "nameArea">
@@ -19,17 +18,18 @@
                 <button style = "width: 100px; margin-bottom: 10px;" onclick= "setName();">Set Name</button>
             </div>
             
-            <div id="canvasContainer">
-                <canvas id="chatCanvas" width="600px" height="500px"></canvas>  
+            <!-- Acts as a canvas (messages are displayed here) -->
+            <div id = "container">
+                <iframe id="chatFrame" width="600px" height="300px" src = "messageFrame.html">  </iframe>  
             </div>
             
             <script>
-                initCanvas();
+                window.onload = initFrame();
             </script>
-            
             <div id="textForm">
                 <input type = "text" onkeydown = "checkInput()" id = "textField" style = "width: 500px; margin-right: 15px; float:left; margin-top: 10px;">
                 <button style= "float: left; width: 85px; margin-top: 10px;" type="button" onclick = "send()">Send!</button>
             </div>
         </div>  
     </body>  
+    

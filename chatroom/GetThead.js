@@ -43,7 +43,7 @@ function parse(rawText){
             var message = raw.substring(raw.indexOf(" : ") + 3, raw.indexOf(" (**") - 1);
             var date = raw.substring(raw.indexOf(" (**") + 4, raw.indexOf("**)"));
             var messageObject = {"name" : name, "message" : message, "date" : date};
-            console.log("Received : [" + messageObject.name + " : " + messageObject.message + " at " + messageObject.date + "]");
+            console.log("Received : [" + messageObject.name + " : " + messageObject.message + " at " + messageObject.date + " ]");
             messages.push(messageObject);
             drawMessage(messageObject);
         }
