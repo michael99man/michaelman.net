@@ -3,6 +3,7 @@
     overflow: auto;
     overflow-x: hidden;
     border: 5px solid #000;  
+    margin: 0 auto;
 }
 
 #chatFrame {  
@@ -18,10 +19,66 @@
     margin: 2px 5px; 
 }
 
-#body {
+#frameBody {
     overflow-y: scroll;
     overflow-x: hidden;
-    min-height: 300px;
+    height: 100%;
     max-width: 600px;
     position: relative;
+}   
+
+#nameArea {
+    margin: 20px 130px 5px;
+}
+#textForm {
+    margin: 5px 125px 5px;
+}
+
+/** GENERIC CSS TEMPLATE **/
+
+#body{
+    margin:1px;
+    background:#202020;
+}
+
+.header-cont {width : 100%; position: fixed; top:10px;}
+
+.header {
+    height:70px;
+    background:#535353;
+    border: 10px solid #262626;
+    width: 940px;
+    top: 10px;
+    position: static;
+    margin:15px auto;
+    border-radius: 5px;
+}
+.content {
+    width: 860px;
+    background: #E0E0E0;
+    border: 5px solid #8c8c8c;;
+    height: 500px;
+    margin: 15px auto; 
+}
+
+.headerLink {
+    text-decoration: none;
+    color: #FFF;
+    margin: 0 auto;
+    font-size: 30px;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+.box{
+    display: block;
+    float: left;
+    margin-top:10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding: 0px 3px;
+    background: #29497F;
+    border: 5px solid #052C6E;
+    position:relative;
+    box-shadow: 5px 6px 5px #888888;
+    border-radius: 5px;
 }

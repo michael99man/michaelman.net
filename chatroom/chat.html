@@ -5,32 +5,48 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">
         <title>Chat</title>  
-        <link type="text/css" rel="stylesheet" href="style.css?ver=0.55">
+        <link type="text/css" rel="stylesheet" href="style.css?ver=0.6">
     </head>  
     
     <script src = "GetThead.js?ver=0.36"></script>
     <script src = "FrameController.js?ver=0.51"></script>
     <script src = "Poster.js?ver=0.387"></script>
-    <body>
-        <div id="wrapper">  
-            <div id = "nameArea">
-                Name: <input type="text" id = "nameBox">
-                <button style = "width: 100px; margin-bottom: 10px;" onclick= "setName();">Set Name</button>
+    <body id = "body">
+        <div class = "header">
+            <div class = "box">
+                <a class = "headerLink" href="snake/SnakeGame.html">Snake</a>
             </div>
             
-            <!-- Acts as a canvas (messages are displayed here) -->
-            <div id = "container">
-                <iframe id="chatFrame" width="600px" height="300px" src = "messageFrame.html">  </iframe>  
-            </div>
+            <div class = "box">
+                <a class = "headerLink" href = "minesweeper/minesweeper.html">Minesweeper</a>
+            </div>  
             
-            <script>
-                window.onload = initFrame();
-            </script>
-            
-            <div id="textForm">
-                <input type = "text" onkeydown = "checkInput()" id = "textField" style = "width: 500px; margin-right: 15px; float:left; margin-top: 10px;">
-                <button style= "float: left; width: 85px; margin-top: 10px;" type="button" onclick = "send()">Send!</button>
-            </div>
-        </div>  
+            <div class = "box">
+                <a class = "headerLink" href = "chatroom/chat.html">Chatroom</a>
+            </div>  
+        </div>
+        
+        <div class = "content">
+            <div id="wrapper">  
+                <div id = "nameArea">
+                    Name: <input type="text" id = "nameBox">
+                    <button style = "width: 100px; margin-bottom: 10px;" onclick= "setName();">Set Name</button>
+                </div>
+                
+                <!-- Acts as a canvas (messages are displayed here) -->
+                <div id = "container">
+                    <iframe id="chatFrame" width="750px" height="300px" src = "messageFrame.html">  </iframe>  
+                </div>
+                
+                <script>
+                    window.onload = initFrame();
+                </script>
+                
+                <div id="textForm">
+                    <input type = "text" onkeydown = "checkInput()" id = "textField" style = "width: 500px; margin-right: 15px; float:left; margin-top: 10px;">
+                    <button style= "float: left; width: 75px; margin-top: 10px;" type="button" onclick = "send()">Send!</button>
+                </div>
+            </div>  
+        </div>
     </body>  
     

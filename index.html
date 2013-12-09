@@ -5,7 +5,7 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">    
         
-        <script src = "messageBoard.js?ver=1.31"></script>
+        <script src = "messageBoard.js?ver=1.32"></script>
         <style type="text/css">
             body{
                 margin:1px;
@@ -58,17 +58,6 @@
                 font-size: 35px;
                 margin: 0 auto;
                 margin-top: 10px;
-            }
-            
-            /* To be removed soon (obseleted by postedMessage) */
-            #mymessage{
-                font-family: Tahoma, Geneva, sans-serif;
-                font-style: italic;
-                font-size: 15px;
-                margin: 0 auto;
-                position:absolute;
-                bottom: 40px;
-                margin-top: 50px;
             }
             
             .messageBlock{
@@ -153,7 +142,6 @@
         </div>
         <div class ="content" id = "contentPane">
             <h1 id = "title">Welcome to Michael Man's Website!</h1>
-            
             <form id = "messageForm">
                 Name: <input type="text" maxlength = 24; name="name" id= "nameField" autocomplete="off" style = "margin-left: 18px; outline-color: #3366FF; width: 170px;"><br>
                 Message: <textarea type="text" maxlength = 200; name = "message" id = "messageField" cols = 20 rows = 3 autocomplete="off"></textarea><br>

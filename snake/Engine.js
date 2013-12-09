@@ -236,7 +236,6 @@ function processInput(event){
     //Ignores keys when control/command is down (Enables keyboard shortcuts, right clicking etc)
     if (!event.ctrlKey && event.keyCode !== 91 && event.keyCode !== 93 && event.keyCode !== 224){
         if(GAME_OVER || WELCOME_SCREEN){
-            
             if (keyCode == 13){ 
                 //Enter (starts and restarts game)
                 
@@ -248,11 +247,11 @@ function processInput(event){
                     SCORE=0;
                 }
                 init();
-            } else {
-                if (WELCOME_SCREEN){
+            } else if (WELCOME_SCREEN){
                     alert("Press Enter to Begin");
                     event.preventDefault();
-                }
+            } else if (keyCode == 32){
+                document.getElementById("nameField").value += " ";
             }
         } else {  
             if (keyCode == 119 || keyCode == 87 || keyCode == 38){

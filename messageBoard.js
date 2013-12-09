@@ -14,8 +14,10 @@ function postMessage(){
     message = message.replace('(', '');
     message = message.replace(')', '');
     message = message.replace(':', '');
+    message = message.replace('\n', '');
+    message = message.replace('\'', '\'');
     
-    if (name === "" || message === ""){
+    if (name === "" || message === "" || message.length > 200){
         return;
     }
     
@@ -64,13 +66,15 @@ function drawPosts(response){
         var dateOffset = curLine.indexOf("(");
         var dateOffsetTwo = curLine.indexOf(")");
         var offset = curLine.indexOf(" : ");
+        var IPoffset = curLine.indexOf(" ^");
         
         var date = curLine.substring(dateOffset+1, dateOffsetTwo);
         var name = curLine.substring(0, dateOffset - 1);
-        var message = curLine.substring(offset + 3);
+        var message = curLine.substring(offset + 3, IPoffset);
+        var IP = curLine.substring(IPoffset + 2, curLine.length);
         
         //NOTE: SUBSTRING INCLUDES START BUT NOT END. e.g. (1,4) of "hello" is "ell"
-        var data = {name: name, message: message, date : date};
+        var data = {name: name, message: message, date : date, 'IP' : IP};
         dataArray.push(data);
         //alert(name + " at " + date + " : " + message);
     }   
