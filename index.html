@@ -76,6 +76,7 @@
                 font-family: Tahoma, Geneva, sans-serif;
                 color: white;   
                 left: 10px;
+                right: 10px;
                 vertical-align:top;
             }
             
@@ -139,7 +140,25 @@
             <div class = "box">
                 <a class = "headerLink" href = "chatroom/chat.html">Chatroom</a>
             </div>  
+            <div class = "box">
+                <a class = "headerLink" href = "proxy/proxy.html">Proxy</a>
+            </div>
         </div>
+        
+        <!-- Put in all HTML files! -->
+        <?php
+            $fh = fopen("http://www.michaelman.net/Banlist.txt", 'r');
+            $data = fread($fh, 1000);
+            fclose($fh);
+            
+            $lines = explode("\n", $data);
+            foreach ($lines as $line){
+                if ($IP == $line){
+                    echo "<script>window.location = \"http://michaelman.net/banned.html\";      </script>";
+                }
+            }
+        ?>
+        
         <div class ="content" id = "contentPane">
             <h1 id = "title">Welcome to Michael Man's Website!</h1>
             <form id = "messageForm">

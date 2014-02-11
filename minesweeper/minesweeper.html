@@ -106,9 +106,10 @@
             }
         </style>
     </head>
+    
     <script src="Engine.js?ver=1.66"></script>
-    <script src="Scoring.js?ver=1.27"></script>
-    <body onload="LoadFile();" oncontextmenu="return false;">
+    <script type = "text/javascript" src="Scoring.js?ver=1.35"></script>
+    <body oncontextmenu="return false;" onload="LoadFile();">
         <div class = "header"> 
             <div class = "box">
                 <a class = "headerLink" href="../snake/SnakeGame.html">Snake</a>
@@ -120,7 +121,25 @@
             <div class = "box">
                 <a class = "headerLink" href = "../chatroom/chat.html">Chatroom</a>
             </div>
+            <div class = "box">
+                <a class = "headerLink" href = "../proxy/proxy.html">Proxy</a>
+            </div>
         </div>
+        
+        
+        <!-- Put in all HTML files! -->
+        <?php
+            $fh = fopen("http://www.michaelman.net/Banlist.txt", 'r');
+            $data = fread($fh, 1000);
+            fclose($fh);
+            
+            $lines = explode("\n", $data);
+            foreach ($lines as $line){
+                if ($IP == $line){
+                   echo "<script>window.location = \"http://michaelman.net/banned.html\";</script>";
+                }
+            }
+        ?>
         
         <div class = "content" id = "contentPane">
             <h1 id = "mineCounter">Mines left: 0</h1>

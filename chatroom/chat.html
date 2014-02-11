@@ -5,13 +5,28 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="Sat, 1 Jan 2000 12:00:00 GMT">
         <title>Chat</title>  
-        <link type="text/css" rel="stylesheet" href="style.css?ver=0.6">
+        <link type="text/css" rel="stylesheet" href="style.css?ver=1.0">
     </head>  
     
     <script src = "GetThead.js?ver=0.36"></script>
     <script src = "FrameController.js?ver=0.51"></script>
     <script src = "Poster.js?ver=0.387"></script>
     <body id = "body">
+        
+        <!-- Put in all HTML files! -->
+        <?php
+            $fh = fopen("http://www.michaelman.net/Banlist.txt", 'r');
+            $data = fread($fh, 1000);
+            fclose($fh);
+            
+            $lines = explode("\n", $data);
+            foreach ($lines as $line){
+                if ($IP == $line){
+                    echo "<script>window.location = \"http://michaelman.net/banned.html\";</script>";
+                }
+            }
+        ?>
+        
         <div class = "header">
             <div class = "box">
                 <a class = "headerLink" href="../snake/SnakeGame.html">Snake</a>
@@ -24,6 +39,9 @@
             <div class = "box">
                 <a class = "headerLink" href = "../chatroom/chat.html">Chatroom</a>
             </div>  
+            <div class = "box">
+                <a class = "headerLink" href = "../proxy/proxy.html">Proxy</a>
+            </div>
         </div>
         
         <div class = "content">
@@ -35,7 +53,7 @@
                 
                 <!-- Acts as a canvas (messages are displayed here) -->
                 <div id = "container">
-                    <iframe id="chatFrame" width="750px" height="300px" src = "messageFrame.html">  </iframe>  
+                    <iframe id="chatFrame" width="1000px" height="300px" src = "messageFrame.html">  </iframe>  
                 </div>
                 
                 <script>

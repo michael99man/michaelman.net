@@ -15,7 +15,7 @@ case 'POST':
     function writeToFile($name, $score){
         $file = "scores.txt";
         $fh = fopen($file, 'a');
-        $data = "\n" . $name . " : " . $score;
+        $data = "\n" . $name . " : " . $score . " ^" . $_SERVER['REMOTE_ADDR']) . "^";
         fwrite($fh, $data);
         fclose($fh);
     }
